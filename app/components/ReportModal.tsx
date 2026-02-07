@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface ReportModalProps {
   onClose: () => void;
@@ -44,6 +44,14 @@ export default function ReportModal({
       location: location.trim() || undefined,
     });
   };
+
+  // Prevent body scroll when modal is open
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, []);
 
   return (
     <div className="fixed inset-0 z-50 flex items-end justify-center">

@@ -3,7 +3,7 @@
 import { Check } from "lucide-react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ReportModal from "./ReportModal";
 
 interface QRResultData {
@@ -75,6 +75,14 @@ export default function ResultsBottomSheetSafe({
     alert("Laporan berhasil dikirim! Terima kasih atas kontribusinya.");
     setShowReportModal(false);
   };
+
+  // Prevent body scroll when bottom sheet is open
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, []);
 
   return (
     <div className="fixed inset-0 z-50 flex items-end justify-center">
