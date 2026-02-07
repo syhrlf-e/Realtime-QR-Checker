@@ -101,7 +101,7 @@ export default function ResultsBottomSheetWarning({
         className="relative w-full bg-white rounded-t-3xl overflow-hidden"
         style={{ height: "calc(100vh - 36px)" }}
       >
-        <div className="px-5 pt-9">
+        <div className="px-5 pt-9 h-full overflow-y-auto">
           {/* Handle bar */}
           <div className="flex justify-center mb-4">
             <div className="w-12 h-1 bg-gray-300 rounded-full" />
