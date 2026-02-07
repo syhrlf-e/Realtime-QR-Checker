@@ -8,6 +8,8 @@ import { decodeQR, QRType } from "@/app/lib/qr-decoder";
 import { analyzeURL } from "@/app/lib/url-analyzer";
 import { analyzeQRIS } from "@/app/lib/qris-analyzer";
 import ResultsBottomSheetSafe from "@/app/components/ResultsBottomSheetSafe";
+import ResultsBottomSheetWarning from "@/app/components/ResultsBottomSheetWarning";
+import { AnimatePresence } from "framer-motion";
 
 export default function UploadScannerPage() {
   const router = useRouter();
@@ -197,17 +199,33 @@ export default function UploadScannerPage() {
         </div>
       </div>
 
-      {showResults && analysisResult && (
-        <ResultsBottomSheetSafe
-          data={analysisResult}
-          onClose={() => setShowResults(false)}
-          onScanAgain={() => {
-            setShowResults(false);
-            setAnalysisResult(null);
-            setSelectedFile(null);
-          }}
-        />
-      )}
+      <AnimatePresence>
+        {showResults && analysisResult && (
+          <>
+            {analysisResult.securityAnalysis?.overallStatus === "safe" ? (
+              <ResultsBottomSheetSafe
+                data={analysisResult}
+                onClose={() => setShowResults(false)}
+                onScanAgain={() => {
+                  setShowResults(false);
+                  setAnalysisResult(null);
+                  setSelectedFile(null);
+                }}
+              />
+            ) : (
+              <ResultsBottomSheetWarning
+                data={analysisResult}
+                onClose={() => setShowResults(false)}
+                onScanAgain={() => {
+                  setShowResults(false);
+                  setAnalysisResult(null);
+                  setSelectedFile(null);
+                }}
+              />
+            )}
+          </>
+        )}
+      </AnimatePresence>
     </main>
   );
 }

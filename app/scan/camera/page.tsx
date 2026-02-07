@@ -9,6 +9,7 @@ import { decodeQR, QRType } from "@/app/lib/qr-decoder";
 import { analyzeURL } from "@/app/lib/url-analyzer";
 import { analyzeQRIS } from "@/app/lib/qris-analyzer";
 import ResultsBottomSheetSafe from "@/app/components/ResultsBottomSheetSafe";
+import ResultsBottomSheetWarning from "@/app/components/ResultsBottomSheetWarning";
 
 export default function CameraScannerPage() {
   const router = useRouter();
@@ -149,18 +150,35 @@ export default function CameraScannerPage() {
 
       <AnimatePresence>
         {showResults && analysisResult && (
-          <ResultsBottomSheetSafe
-            data={analysisResult}
-            onClose={() => {
-              setShowResults(false);
-              resetLastScan();
-            }}
-            onScanAgain={() => {
-              setShowResults(false);
-              setAnalysisResult(null);
-              resetLastScan();
-            }}
-          />
+          <>
+            {analysisResult.securityAnalysis?.overallStatus === "safe" ? (
+              <ResultsBottomSheetSafe
+                data={analysisResult}
+                onClose={() => {
+                  setShowResults(false);
+                  resetLastScan();
+                }}
+                onScanAgain={() => {
+                  setShowResults(false);
+                  setAnalysisResult(null);
+                  resetLastScan();
+                }}
+              />
+            ) : (
+              <ResultsBottomSheetWarning
+                data={analysisResult}
+                onClose={() => {
+                  setShowResults(false);
+                  resetLastScan();
+                }}
+                onScanAgain={() => {
+                  setShowResults(false);
+                  setAnalysisResult(null);
+                  resetLastScan();
+                }}
+              />
+            )}
+          </>
         )}
       </AnimatePresence>
     </main>

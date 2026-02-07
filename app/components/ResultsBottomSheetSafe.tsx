@@ -125,7 +125,7 @@ export default function ResultsBottomSheetSafe({
           <div className="flex-1 overflow-y-auto">
             <div className="w-full bg-[#F8F8F8] rounded-2xl shadow-md p-6 mb-8 border border-gray-300">
               <h3 className="text-text font-medium text-base text-center">
-                {isQRIS ? data.type : "Teks Biasa"}
+                {data.type}
               </h3>
 
               <div className="h-8" />

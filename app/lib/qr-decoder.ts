@@ -20,17 +20,24 @@ export function decodeQR(data: string): DecodedQR {
   const trimmedData = data.trim();
 
   const urlPattern = /^(https?:\/\/|www\.)/i;
-  if (urlPattern.test(trimmedData)) {
+  const isURLMatch = urlPattern.test(trimmedData);
+  console.log("🔍 URL Pattern test:", isURLMatch);
+  console.log("🔍 Starts with 'http://':", trimmedData.startsWith("http://"));
+  console.log("🔍 Starts with 'https://':", trimmedData.startsWith("https://"));
+
+  if (isURLMatch) {
     let url = trimmedData;
     if (trimmedData.toLowerCase().startsWith("www.")) {
       url = "http://" + trimmedData;
     }
+    console.log("✅ DETECTED AS URL:", url);
     return {
       type: QRType.URL,
       rawData: trimmedData,
       parsedData: { url },
     };
   }
+  console.log("❌ NOT URL - checking other types...");
 
   if (trimmedData.startsWith("00020") || trimmedData.includes("ID.CO.QRIS")) {
     return {

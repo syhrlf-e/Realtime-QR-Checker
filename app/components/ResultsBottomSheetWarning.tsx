@@ -123,7 +123,7 @@ export default function ResultsBottomSheetWarning({
           <div className="flex flex-col items-center">
             <div className="relative w-[49px] h-[49px]">
               <Image
-                src="/warning.png"
+                src="/warning_icon.png"
                 alt="Warning"
                 fill
                 className="object-contain"
@@ -141,7 +141,7 @@ export default function ResultsBottomSheetWarning({
 
           <div className="w-[350px] bg-[#F8F8F8] rounded-2xl shadow-md p-6 border border-gray-300">
             <h3 className="text-text font-medium text-base text-center">
-              {isQRIS ? data.type : "Teks Biasa"}
+              {data.type}
             </h3>
 
             <div className="h-8" />
@@ -228,18 +228,18 @@ export default function ResultsBottomSheetWarning({
 
           <div className="h-4" />
 
-          <div className="w-[350px] min-h-[41px] bg-[#FFE5E5] border border-[#FF0000] rounded-[20px] flex items-center justify-center px-4 py-3">
-            <p className="text-[#FF0000] font-medium text-xs text-center">
-              Jangan lanjutkan transaksi apapun dengan QR ini
+          <div className="w-[350px] h-[41px] bg-[#FF0000]/10 border border-[#FF0000] rounded-[20px] flex items-center justify-center px-4">
+            <p className="text-[#FF0000] font-normal text-sm text-center">
+              Jangan lanjutkan transaksi
             </p>
           </div>
 
-          <div className="h-10" />
+          <div className="h-6" />
 
-          <div className="flex gap-3 justify-center">
+          <div className="flex gap-[22px] justify-center">
             <button
               onClick={onScanAgain}
-              className="w-[123px] h-[44px] bg-lime rounded-full hover:bg-lime/90 transition-colors"
+              className="w-[123px] h-[44px] bg-[#B0FF1F] rounded-[50px] hover:bg-[#B0FF1F]/90 transition-colors flex items-center justify-center"
             >
               <span className="text-text font-semibold text-sm">
                 Scan QR Lain
@@ -248,9 +248,9 @@ export default function ResultsBottomSheetWarning({
 
             <button
               onClick={() => setShowReportModal(true)}
-              className="w-[160px] h-[44px] bg-white border-2 border-[#FF0000] rounded-full hover:bg-red-50 transition-colors"
+              className="w-[204px] h-[44px] bg-white border border-[#FF0000] rounded-[50px] hover:bg-red-50 transition-colors flex items-center justify-center"
             >
-              <span className="text-[#FF0000] font-semibold text-sm">
+              <span className="text-[#FF0000] font-medium text-sm">
                 Laporkan penipuan
               </span>
             </button>
