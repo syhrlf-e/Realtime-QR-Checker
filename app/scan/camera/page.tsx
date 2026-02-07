@@ -89,7 +89,7 @@ export default function CameraScannerPage() {
     <main className="h-screen bg-white overflow-hidden">
       <div className="mx-auto max-w-md w-full px-5 py-5 h-full">
         <div className="space-y-9 h-full flex flex-col">
-          <div className="w-full max-w-[350px] h-[55px] bg-lime rounded-full flex items-center justify-center">
+          <div className="w-full max-w-[350px] mx-auto h-[55px] bg-lime rounded-full flex items-center justify-center">
             <h1 className="text-text font-medium text-xl">
               Realtime QR Checker
             </h1>
@@ -101,7 +101,7 @@ export default function CameraScannerPage() {
             <span className="bg-lime px-1">keamanannya</span> disini
           </p>
 
-          <div className="relative w-full max-w-[350px] h-[339px] bg-gray-900 rounded-3xl overflow-hidden">
+          <div className="relative w-full max-w-[350px] mx-auto h-[339px] bg-gray-900 rounded-3xl overflow-hidden">
             <video
               ref={videoRef}
               autoPlay
@@ -130,7 +130,7 @@ export default function CameraScannerPage() {
             </div>
           </div>
 
-          <div className="flex items-center w-full max-w-[350px]">
+          <div className="flex items-center w-full max-w-[350px] mx-auto">
             <button
               onClick={() => {
                 stopScanning();
@@ -190,3 +190,4 @@ export default function CameraScannerPage() {
     </main>
   );
 }
+

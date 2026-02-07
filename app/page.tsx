@@ -33,7 +33,7 @@ export default function HomePage() {
     <main className="min-h-screen bg-white">
       <div className="mx-auto max-w-md w-full px-5 py-5">
         <div className="space-y-9 h-full flex flex-col">
-          <div className="w-full max-w-[350px] h-[55px] bg-lime rounded-full flex items-center justify-center">
+          <div className="w-full max-w-[350px] mx-auto h-[55px] bg-lime rounded-full flex items-center justify-center">
             <h1 className="text-text font-medium text-xl">
               Realtime QR Checker
             </h1>
@@ -45,7 +45,7 @@ export default function HomePage() {
             <span className="bg-lime px-1">keamanannya</span> disini"
           </p>
 
-          <div className="flex gap-4">
+          <div className="flex gap-4 mx-auto">
             <Link
               href="/scan/camera"
               className="w-[164px] h-[132px] border-2 border-lime rounded-[47px] flex flex-col items-center justify-center gap-2 hover:bg-lime/5 transition-colors"
@@ -69,7 +69,7 @@ export default function HomePage() {
 
           <Link
             href="/reports"
-            className="w-full max-w-[350px] h-[57px] border-2 border-lime rounded-full flex items-center justify-between pl-6 pr-[14px] hover:bg-lime/5 transition-colors"
+            className="w-full max-w-[350px] mx-auto h-[57px] border-2 border-lime rounded-full flex items-center justify-between pl-6 pr-[14px] hover:bg-lime/5 transition-colors"
           >
             <span className="text-text font-medium text-sm">
               Lihat Laporan Penipuan
@@ -86,7 +86,7 @@ export default function HomePage() {
 
             <div className="space-y-2">
               {faqItems.map((item, index) => (
-                <div key={index} className="w-full max-w-[350px]">
+                <div key={index} className="w-full max-w-[350px] mx-auto">
                   <button
                     onClick={() => toggleFaq(index)}
                     className="w-full h-[46px] bg-bg-accordion rounded-lg px-4 flex items-center justify-between hover:bg-gray-200 transition-colors"
@@ -117,4 +117,3 @@ export default function HomePage() {
     </main>
   );
 }
-

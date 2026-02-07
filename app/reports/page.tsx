@@ -139,7 +139,7 @@ export default function ReportsPage() {
     <main className="min-h-screen bg-white overflow-hidden h-screen">
       <div className="mx-auto max-w-md w-full px-5 py-5 h-full flex flex-col">
         <div className="mb-8">
-          <div className="w-full max-w-[350px] h-[55px] bg-lime rounded-full flex items-center justify-center">
+          <div className="w-full max-w-[350px] mx-auto h-[55px] bg-lime rounded-full flex items-center justify-center">
             <h1 className="text-text font-medium text-xl">
               Realtime QR Checker
             </h1>
@@ -168,7 +168,7 @@ export default function ReportsPage() {
 
           <div className="h-9" />
 
-          <div className="relative w-full max-w-[350px] h-[50px]">
+          <div className="relative w-full max-w-[350px] mx-auto h-[50px]">
             <div className="absolute inset-0 border-2 border-lime rounded-[47px] flex items-center pl-4 pr-[6px] bg-white">
               <Search className="w-5 h-5 text-text/50 flex-shrink-0" />
               <input
@@ -197,7 +197,7 @@ export default function ReportsPage() {
               >
                 <div className="h-3" />
 
-                <div className="flex gap-3 w-full max-w-[350px]">
+                <div className="flex gap-3 w-full max-w-[350px] mx-auto">
                   <div className="relative flex-1 min-w-0">
                     <button
                       onClick={() => {
@@ -327,7 +327,7 @@ export default function ReportsPage() {
               {filteredReports.map((report) => (
                 <div
                   key={report.id}
-                  className="w-full max-w-[350px] h-[107px] bg-[#F5F5F5] rounded-xl p-4 flex flex-col justify-between"
+                  className="w-full max-w-[350px] mx-auto h-[107px] bg-[#F5F5F5] rounded-xl p-4 flex flex-col justify-between"
                 >
                   <div className="flex items-start justify-between">
                     <h3 className="text-text font-medium text-base flex-1">
@@ -362,3 +362,4 @@ export default function ReportsPage() {
     </main>
   );
 }
+
