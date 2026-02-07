@@ -110,7 +110,6 @@ export default function ResultsBottomSheetWarning({
         style={{ height: "764px" }}
       >
         <div className="px-5 pt-9 h-full overflow-y-auto">
-          {/* Handle bar */}
           <div className="flex justify-center mb-4">
             <div className="w-12 h-1 bg-gray-300 rounded-full" />
           </div>
@@ -121,7 +120,6 @@ export default function ResultsBottomSheetWarning({
 
           <div className="h-8" />
 
-          {/* Status Icon & Title */}
           <div className="flex flex-col items-center">
             <div className="relative w-[49px] h-[49px]">
               <Image
@@ -141,13 +139,13 @@ export default function ResultsBottomSheetWarning({
 
           <div className="h-9" />
 
-          {/* Info Card - Show for QRIS or Plain Text */}
-          <div className="w-[350px] bg-[#F8F8F8] rounded-2xl shadow-md p-6">
-            <h3 className="text-text font-medium text-base">{data.type}</h3>
+          <div className="w-[350px] bg-[#F8F8F8] rounded-2xl shadow-md p-6 border border-gray-300">
+            <h3 className="text-text font-medium text-base text-center">
+              {isQRIS ? data.type : "Teks Biasa"}
+            </h3>
 
             <div className="h-8" />
 
-            {/* QRIS Details */}
             {isQRIS && hasDetailedInfo && (
               <>
                 {data.merchant && (
@@ -195,12 +193,13 @@ export default function ResultsBottomSheetWarning({
               </>
             )}
 
-            {/* Non-QRIS: Show raw content */}
             {!isQRIS && data.rawData && (
               <>
-                <p className="text-text/50 font-medium text-xs">Isi QR Code</p>
+                <p className="text-text/50 font-medium text-xs text-center">
+                  Isi QR Code
+                </p>
                 <div className="h-2" />
-                <p className="text-text font-medium text-sm break-all">
+                <p className="text-text font-medium text-sm break-all text-center">
                   {data.rawData}
                 </p>
               </>
@@ -209,7 +208,6 @@ export default function ResultsBottomSheetWarning({
 
           <div className="h-8" />
 
-          {/* Security Checks */}
           <h3 className="text-text font-medium text-base">
             Kenapa terlihat mencurigakan?
           </h3>
@@ -230,7 +228,6 @@ export default function ResultsBottomSheetWarning({
 
           <div className="h-4" />
 
-          {/* Warning Box */}
           <div className="w-[350px] min-h-[41px] bg-[#FFE5E5] border border-[#FF0000] rounded-[20px] flex items-center justify-center px-4 py-3">
             <p className="text-[#FF0000] font-medium text-xs text-center">
               Jangan lanjutkan transaksi apapun dengan QR ini
@@ -239,7 +236,6 @@ export default function ResultsBottomSheetWarning({
 
           <div className="h-10" />
 
-          {/* Action Buttons */}
           <div className="flex gap-3 justify-center">
             <button
               onClick={onScanAgain}

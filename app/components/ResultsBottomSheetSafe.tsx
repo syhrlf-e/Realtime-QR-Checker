@@ -123,8 +123,10 @@ export default function ResultsBottomSheetSafe({
           </h2>
 
           <div className="flex-1 overflow-y-auto">
-            <div className="w-full bg-[#F8F8F8] rounded-2xl shadow-md p-6 mb-8">
-              <h3 className="text-text font-medium text-base">{data.type}</h3>
+            <div className="w-full bg-[#F8F8F8] rounded-2xl shadow-md p-6 mb-8 border border-gray-300">
+              <h3 className="text-text font-medium text-base text-center">
+                {isQRIS ? data.type : "Teks Biasa"}
+              </h3>
 
               <div className="h-8" />
 
@@ -179,11 +181,11 @@ export default function ResultsBottomSheetSafe({
 
               {!isQRIS && data.rawData && (
                 <>
-                  <p className="text-text/50 font-medium text-xs">
+                  <p className="text-text/50 font-medium text-xs text-center">
                     Isi QR Code
                   </p>
                   <div className="h-2" />
-                  <p className="text-text font-medium text-sm break-all">
+                  <p className="text-text font-medium text-sm break-all text-center">
                     {data.rawData}
                   </p>
                 </>

@@ -72,17 +72,14 @@ export default function ReportModal({
         style={{ height: "764px" }}
       >
         <div className="px-5 pt-9 h-full overflow-y-auto">
-          {/* Handle bar */}
           <div className="flex justify-center mb-8">
             <div className="w-12 h-1 bg-gray-300 rounded-full" />
           </div>
 
-          {/* Title */}
           <h2 className="text-text font-medium text-xl text-center mb-9">
             Laporkan QR Penipuan
           </h2>
 
-          {/* Category Selection */}
           <div className="mb-8">
             <label className="text-text font-medium text-base block mb-4">
               Kategori Penipuan:
@@ -104,7 +101,6 @@ export default function ReportModal({
             </div>
           </div>
 
-          {/* Detail Textarea */}
           <div className="mb-8">
             <label className="text-text font-medium text-base block mb-4">
               Detail Laporan:
@@ -117,7 +113,6 @@ export default function ReportModal({
             />
           </div>
 
-          {/* Location (Optional) */}
           <div className="mb-10">
             <label className="text-text font-medium text-base block mb-4">
               Lokasi kejadian (opsional)
@@ -131,7 +126,6 @@ export default function ReportModal({
             />
           </div>
 
-          {/* Submit Button */}
           <div className="flex justify-center pb-10">
             <button
               onClick={handleSubmit}
