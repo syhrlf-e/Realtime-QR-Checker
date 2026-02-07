@@ -2,7 +2,9 @@
 
 import { Check } from "lucide-react";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import { useState } from "react";
+import ReportModal from "./ReportModal";
 
 interface QRResultData {
   type: string;
@@ -33,6 +35,8 @@ export default function ResultsBottomSheetSafe({
   onClose,
   onScanAgain,
 }: ResultsBottomSheetProps) {
+  const [showReportModal, setShowReportModal] = useState(false);
+
   const isQRIS = data.type === "QRIS Payment";
   const hasDetailedInfo =
     data.merchant || data.nmid || data.city || data.amount;
@@ -64,6 +68,13 @@ export default function ResultsBottomSheetSafe({
     baseChecks.length >= 3
       ? baseChecks.slice(0, 3)
       : [...baseChecks, ...fallbackChecks].slice(0, 3);
+
+  const handleReportSubmit = (reportData: any) => {
+    console.log("Report submitted:", reportData);
+    // TODO: Send to Supabase
+    alert("Laporan berhasil dikirim! Terima kasih atas kontribusinya.");
+    setShowReportModal(false);
+  };
 
   return (
     <div className="fixed inset-0 z-50 flex items-end justify-center">
@@ -191,7 +202,10 @@ export default function ResultsBottomSheetSafe({
               <p className="text-text font-medium text-xs">
                 Lihat sesuatu yang mencurigakan?
               </p>
-              <button className="w-[77px] h-[27px] bg-white rounded-full hover:bg-gray-50 transition-colors">
+              <button
+                onClick={() => setShowReportModal(true)}
+                className="w-[77px] h-[27px] bg-white rounded-full hover:bg-gray-50 transition-colors"
+              >
                 <span className="text-text font-medium text-xs">Laporkan</span>
               </button>
             </div>
@@ -209,6 +223,16 @@ export default function ResultsBottomSheetSafe({
           </div>
         </div>
       </motion.div>
+
+      <AnimatePresence>
+        {showReportModal && (
+          <ReportModal
+            onClose={() => setShowReportModal(false)}
+            onSubmit={handleReportSubmit}
+            qrData={data}
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 }
