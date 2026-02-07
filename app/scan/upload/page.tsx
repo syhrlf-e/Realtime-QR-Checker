@@ -209,8 +209,8 @@ export default function UploadScannerPage() {
 
   return (
     <main className="h-screen bg-white overflow-hidden">
-      <div className="mx-auto max-w-[390px] px-5 h-full">
-        <div className="pt-safe-top space-y-9 h-full flex flex-col">
+      <div className="mx-auto max-w-md w-full px-5 py-5 h-full">
+        <div className="space-y-9 h-full flex flex-col">
           <div className="w-[350px] h-[55px] bg-lime rounded-full flex items-center justify-center">
             <h1 className="text-text font-medium text-xl">
               Realtime QR Checker
