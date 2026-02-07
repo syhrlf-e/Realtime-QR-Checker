@@ -17,74 +17,81 @@ export interface DecodedQR {
 }
 
 export function decodeQR(data: string): DecodedQR {
-  if (data.startsWith("http://") || data.startsWith("https://")) {
+  const trimmedData = data.trim();
+
+  const urlPattern = /^(https?:\/\/|www\.)/i;
+  if (urlPattern.test(trimmedData)) {
+    let url = trimmedData;
+    if (trimmedData.toLowerCase().startsWith("www.")) {
+      url = "http://" + trimmedData;
+    }
     return {
       type: QRType.URL,
-      rawData: data,
-      parsedData: { url: data },
+      rawData: trimmedData,
+      parsedData: { url },
     };
   }
 
-  if (data.startsWith("00020") || data.includes("ID.CO.QRIS")) {
+  if (trimmedData.startsWith("00020") || trimmedData.includes("ID.CO.QRIS")) {
     return {
       type: QRType.QRIS,
-      rawData: data,
-      parsedData: parseQRIS(data),
+      rawData: trimmedData,
+      parsedData: parseQRIS(trimmedData),
     };
   }
 
-  if (data.startsWith("BEGIN:VCARD")) {
+  if (trimmedData.startsWith("BEGIN:VCARD")) {
     return {
       type: QRType.VCARD,
-      rawData: data,
-      parsedData: parseVCard(data),
+      rawData: trimmedData,
+      parsedData: parseVCard(trimmedData),
     };
   }
 
-  if (data.startsWith("WIFI:")) {
+  if (trimmedData.startsWith("WIFI:")) {
     return {
       type: QRType.WIFI,
-      rawData: data,
-      parsedData: parseWiFi(data),
+      rawData: trimmedData,
+      parsedData: parseWiFi(trimmedData),
     };
   }
 
-  if (data.startsWith("mailto:")) {
+  if (trimmedData.startsWith("mailto:")) {
     return {
       type: QRType.EMAIL,
-      rawData: data,
-      parsedData: { email: data.replace("mailto:", "") },
+      rawData: trimmedData,
+      parsedData: { email: trimmedData.replace("mailto:", "") },
     };
   }
 
-  if (data.startsWith("sms:") || data.startsWith("smsto:")) {
+  if (trimmedData.startsWith("sms:") || trimmedData.startsWith("smsto:")) {
     return {
       type: QRType.SMS,
-      rawData: data,
-      parsedData: parseSMS(data),
+      rawData: trimmedData,
+      parsedData: parseSMS(trimmedData),
     };
   }
 
-  if (data.startsWith("geo:")) {
+  if (trimmedData.startsWith("geo:")) {
     return {
       type: QRType.GEO,
-      rawData: data,
-      parsedData: parseGeo(data),
+      rawData: trimmedData,
+      parsedData: parseGeo(trimmedData),
     };
   }
 
-  if (data.startsWith("BEGIN:VEVENT")) {
+  if (trimmedData.startsWith("BEGIN:VEVENT")) {
     return {
       type: QRType.CALENDAR,
-      rawData: data,
-      parsedData: parseCalendar(data),
+      rawData: trimmedData,
+      parsedData: parseCalendar(trimmedData),
     };
   }
 
   return {
     type: QRType.PLAIN_TEXT,
-    rawData: data,
-    parsedData: { text: data },
+    rawData: trimmedData,
+    parsedData: { text: trimmedData },
   };
 }
 
