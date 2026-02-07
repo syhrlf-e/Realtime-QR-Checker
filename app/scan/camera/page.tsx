@@ -3,6 +3,7 @@
 import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
+import { AnimatePresence } from "framer-motion";
 import { useQRScanner } from "@/app/hooks/useQRScanner";
 import { decodeQR, QRType } from "@/app/lib/qr-decoder";
 import { analyzeURL } from "@/app/lib/url-analyzer";
@@ -146,20 +147,22 @@ export default function CameraScannerPage() {
         </div>
       </div>
 
-      {showResults && analysisResult && (
-        <ResultsBottomSheetSafe
-          data={analysisResult}
-          onClose={() => {
-            setShowResults(false);
-            resetLastScan();
-          }}
-          onScanAgain={() => {
-            setShowResults(false);
-            setAnalysisResult(null);
-            resetLastScan();
-          }}
-        />
-      )}
+      <AnimatePresence>
+        {showResults && analysisResult && (
+          <ResultsBottomSheetSafe
+            data={analysisResult}
+            onClose={() => {
+              setShowResults(false);
+              resetLastScan();
+            }}
+            onScanAgain={() => {
+              setShowResults(false);
+              setAnalysisResult(null);
+              resetLastScan();
+            }}
+          />
+        )}
+      </AnimatePresence>
     </main>
   );
 }

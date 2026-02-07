@@ -69,7 +69,7 @@ export default function HomePage() {
 
           <Link
             href="/reports"
-            className="w-[350px] h-[57px] border-2 border-lime rounded-full flex items-center justify-between px-6 hover:bg-lime/5 transition-colors"
+            className="w-[350px] h-[57px] border-2 border-lime rounded-full flex items-center justify-between pl-6 pr-[14px] hover:bg-lime/5 transition-colors"
           >
             <span className="text-text font-medium text-sm">
               Lihat Laporan Penipuan
