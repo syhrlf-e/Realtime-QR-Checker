@@ -110,17 +110,11 @@ export default function ResultsBottomSheetWarning({
         style={{ height: "764px" }}
       >
         <div className="px-5 pt-9 h-full overflow-y-auto">
-          <div className="flex justify-center mb-4">
+          <div className="flex justify-center mb-8">
             <div className="w-12 h-1 bg-gray-300 rounded-full" />
           </div>
 
-          <div className="h-4" />
-
-          <div className="w-full h-[1px] bg-text/50" />
-
-          <div className="h-8" />
-
-          <div className="flex flex-col items-center">
+          <div className="flex justify-center mb-3">
             <div className="relative w-[49px] h-[49px]">
               <Image
                 src="/warning_icon.png"
@@ -129,106 +123,102 @@ export default function ResultsBottomSheetWarning({
                 className="object-contain"
               />
             </div>
-
-            <div className="h-3" />
-
-            <h2 className="text-text font-medium text-xl">
-              QR Code Mencurigakan
-            </h2>
           </div>
 
-          <div className="h-9" />
+          <h2 className="text-text font-medium text-xl text-center mb-9">
+            QR Code Mencurigakan
+          </h2>
 
-          <div className="w-[350px] bg-[#F8F8F8] rounded-2xl shadow-md p-6 border border-gray-300">
-            <h3 className="text-text font-medium text-base text-center">
-              {data.type}
+          <div className="flex-1 overflow-y-auto">
+            <div className="w-full bg-[#F8F8F8] rounded-2xl shadow-md p-6 mb-8 border border-gray-300">
+              <h3 className="text-text font-medium text-base text-center">
+                {data.type}
+              </h3>
+
+              <div className="h-8" />
+
+              {isQRIS && hasDetailedInfo && (
+                <>
+                  {data.merchant && (
+                    <>
+                      <p className="text-text/50 font-medium text-xs">
+                        Merchant
+                      </p>
+                      <div className="h-2" />
+                      <p className="text-text font-medium text-base">
+                        {data.merchant}
+                      </p>
+                      <div className="h-[22px]" />
+                    </>
+                  )}
+
+                  {data.nmid && (
+                    <>
+                      <p className="text-text/50 font-medium text-xs">NMID</p>
+                      <div className="h-2" />
+                      <p className="text-text font-medium text-base">
+                        {data.nmid}
+                      </p>
+                      <div className="h-[22px]" />
+                    </>
+                  )}
+
+                  {data.city && (
+                    <>
+                      <p className="text-text/50 font-medium text-xs">Kota</p>
+                      <div className="h-2" />
+                      <p className="text-text font-medium text-base">
+                        {data.city}
+                      </p>
+                      <div className="h-[22px]" />
+                    </>
+                  )}
+
+                  {data.amount && (
+                    <>
+                      <p className="text-text/50 font-medium text-xs">Amount</p>
+                      <div className="h-2" />
+                      <p className="text-text font-medium text-base">
+                        {data.amount}
+                      </p>
+                    </>
+                  )}
+                </>
+              )}
+
+              {!isQRIS && data.rawData && (
+                <>
+                  <p className="text-text/50 font-medium text-xs text-center">
+                    Isi QR Code
+                  </p>
+                  <div className="h-2" />
+                  <p className="text-text font-medium text-sm break-all text-center">
+                    {data.rawData}
+                  </p>
+                </>
+              )}
+            </div>
+
+            <h3 className="text-text font-medium text-base mb-4">
+              Kenapa terlihat mencurigakan?
             </h3>
 
-            <div className="h-8" />
-
-            {isQRIS && hasDetailedInfo && (
-              <>
-                {data.merchant && (
-                  <>
-                    <p className="text-text/50 font-medium text-xs">Merchant</p>
-                    <div className="h-2" />
-                    <p className="text-text font-medium text-base">
-                      {data.merchant}
-                    </p>
-                    <div className="h-[22px]" />
-                  </>
-                )}
-
-                {data.nmid && (
-                  <>
-                    <p className="text-text/50 font-medium text-xs">NMID</p>
-                    <div className="h-2" />
-                    <p className="text-text font-medium text-base">
-                      {data.nmid}
-                    </p>
-                    <div className="h-[22px]" />
-                  </>
-                )}
-
-                {data.city && (
-                  <>
-                    <p className="text-text/50 font-medium text-xs">Kota</p>
-                    <div className="h-2" />
-                    <p className="text-text font-medium text-base">
-                      {data.city}
-                    </p>
-                    <div className="h-[22px]" />
-                  </>
-                )}
-
-                {data.amount && (
-                  <>
-                    <p className="text-text/50 font-medium text-xs">Amount</p>
-                    <div className="h-2" />
-                    <p className="text-text font-medium text-base">
-                      {data.amount}
-                    </p>
-                  </>
-                )}
-              </>
-            )}
-
-            {!isQRIS && data.rawData && (
-              <>
-                <p className="text-text/50 font-medium text-xs text-center">
-                  Isi QR Code
-                </p>
-                <div className="h-2" />
-                <p className="text-text font-medium text-sm break-all text-center">
-                  {data.rawData}
-                </p>
-              </>
-            )}
+            <div className="space-y-3 mb-4">
+              {securityChecks.map((check: any, index: number) => (
+                <div key={index} className="flex items-center gap-3">
+                  <X
+                    className="w-5 h-5 text-[#FF0000] flex-shrink-0"
+                    strokeWidth={2.5}
+                  />
+                  <p className="text-text font-medium text-sm">{check.name}</p>
+                </div>
+              ))}
+            </div>
           </div>
 
-          <div className="h-8" />
+          <div className="h-6" />
 
-          <h3 className="text-text font-medium text-base">
-            Kenapa terlihat mencurigakan?
-          </h3>
-
-          <div className="h-4" />
-
-          <div className="space-y-3">
-            {securityChecks.map((check: any, index: number) => (
-              <div key={index} className="flex items-center gap-3">
-                <X
-                  className="w-5 h-5 text-[#FF0000] flex-shrink-0"
-                  strokeWidth={2.5}
-                />
-                <p className="text-text font-medium text-sm">{check.name}</p>
-              </div>
-            ))}
-          </div>
-
-          <div className="h-4" />
-
-          <div className="w-[350px] h-[41px] bg-[#FF0000]/10 border border-[#FF0000] rounded-[20px] flex items-center justify-center px-4">
+          <div className="w-full h-[41px] bg-[#FF0000]/10 border border-[#FF0000] rounded-[20px] flex items-center justify-center px-4">
             <p className="text-[#FF0000] font-normal text-sm text-center">
               Jangan lanjutkan transaksi
             </p>
