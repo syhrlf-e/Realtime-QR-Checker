@@ -98,8 +98,8 @@ export default function ResultsBottomSheetWarning({
         animate={{ y: 0 }}
         exit={{ y: "100%" }}
         transition={{ type: "spring", damping: 30, stiffness: 300 }}
-        className="relative w-full bg-white rounded-t-3xl overflow-hidden"
-        style={{ height: "calc(100vh - 36px)" }}
+        className="relative w-full max-w-[390px] bg-white rounded-t-3xl overflow-hidden"
+        style={{ height: "764px" }}
       >
         <div className="px-5 pt-9 h-full overflow-y-auto">
           {/* Handle bar */}
