@@ -4,6 +4,7 @@ import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { AnimatePresence } from "framer-motion";
+import toast from "react-hot-toast";
 import { useQRScanner } from "@/app/hooks/useQRScanner";
 import { decodeQR, QRType } from "@/app/lib/qr-decoder";
 import { analyzeURL } from "@/app/lib/url-analyzer";
@@ -15,6 +16,7 @@ export default function CameraScannerPage() {
   const router = useRouter();
   const [showResults, setShowResults] = useState(false);
   const [analysisResult, setAnalysisResult] = useState<any>(null);
+  const [isCameraReady, setIsCameraReady] = useState(false);
 
   const handleQRDetected = (data: string) => {
     const decoded = decodeQR(data);
@@ -66,13 +68,17 @@ export default function CameraScannerPage() {
       onScan: handleQRDetected,
       onError: (error) => {
         console.error("QR Scanner error:", error);
-        alert("Gagal mengakses kamera. Pastikan izin kamera sudah diberikan.");
+        toast.error(
+          "Kamera tidak dapat diakses\nBerikan izin kamera di pengaturan browser Anda",
+        );
       },
     },
   );
 
   useEffect(() => {
-    startScanning();
+    startScanning().then(() => {
+      setIsCameraReady(true);
+    });
 
     return () => {
       stopScanning();

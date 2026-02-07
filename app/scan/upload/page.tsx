@@ -4,6 +4,7 @@ import { ArrowLeft, Upload } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState, useRef } from "react";
 import jsQR from "jsqr";
+import toast from "react-hot-toast";
 import { decodeQR, QRType } from "@/app/lib/qr-decoder";
 import { analyzeURL } from "@/app/lib/url-analyzer";
 import { analyzeQRIS } from "@/app/lib/qris-analyzer";
@@ -18,6 +19,7 @@ export default function UploadScannerPage() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [showResults, setShowResults] = useState(false);
   const [analysisResult, setAnalysisResult] = useState<any>(null);
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();
@@ -72,56 +74,125 @@ export default function UploadScannerPage() {
   };
 
   const handleFileSelect = async (file: File) => {
-    if (file.type === "image/jpeg" || file.type === "image/png") {
+    const validTypes = ["image/jpeg", "image/png", "image/jpg"];
+
+    if (validTypes.includes(file.type)) {
       if (file.size <= 5 * 1024 * 1024) {
         setSelectedFile(file);
+        setIsProcessing(true);
+        const startTime = Date.now();
 
-        const qrData = await processQRImage(file);
+        try {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            const img = new Image();
+            img.onload = async () => {
+              const canvas = document.createElement("canvas");
+              canvas.width = img.width;
+              canvas.height = img.height;
+              const ctx = canvas.getContext("2d");
+              ctx?.drawImage(img, 0, 0);
 
-        if (qrData) {
-          const decoded = decodeQR(qrData);
+              const imageData = ctx?.getImageData(
+                0,
+                0,
+                canvas.width,
+                canvas.height,
+              );
+              if (imageData) {
+                const code = jsQR(imageData.data, canvas.width, canvas.height);
 
-          let securityAnalysis;
-          if (decoded.type === QRType.URL) {
-            securityAnalysis = analyzeURL(decoded.parsedData.url);
-          } else if (decoded.type === QRType.QRIS) {
-            securityAnalysis = analyzeQRIS(decoded.parsedData);
-          } else {
-            securityAnalysis = {
-              overallStatus: "safe",
-              checks: [
-                {
-                  name: "QR Code terdeteksi",
-                  status: "safe",
-                  message: `Tipe: ${decoded.type}`,
-                },
-              ],
+                if (code) {
+                  const decoded = decodeQR(code.data);
+
+                  let securityAnalysis: any = {
+                    overallStatus: "safe",
+                    checks: [],
+                  };
+                  if (decoded.type === QRType.URL && decoded.parsedData.url) {
+                    securityAnalysis = analyzeURL(decoded.parsedData.url);
+                  } else if (decoded.type === QRType.QRIS) {
+                    securityAnalysis = analyzeQRIS(decoded.parsedData);
+                  } else {
+                    securityAnalysis = {
+                      overallStatus: "safe",
+                      checks: [
+                        {
+                          name: "QR Code terdeteksi",
+                          status: "safe",
+                          message: `Tipe: ${decoded.type}`,
+                        },
+                      ],
+                    };
+                  }
+
+                  const result = {
+                    type:
+                      decoded.type === QRType.QRIS
+                        ? "QRIS Payment"
+                        : decoded.type,
+                    merchant: decoded.parsedData.merchantName,
+                    nmid:
+                      decoded.parsedData.nmid || decoded.parsedData.merchantId,
+                    city: decoded.parsedData.merchantCity,
+                    amount: decoded.parsedData.transactionAmount
+                      ? `Rp ${parseFloat(decoded.parsedData.transactionAmount).toLocaleString("id-ID")}`
+                      : undefined,
+                    checks: securityAnalysis.checks.map(
+                      (check: any) => check.name,
+                    ),
+                    rawData: decoded.rawData,
+                    securityAnalysis,
+                  };
+
+                  // Ensure minimum spinner display time (100ms)
+                  const elapsed = Date.now() - startTime;
+                  const minDelay = 100;
+                  const remainingDelay = Math.max(0, minDelay - elapsed);
+
+                  await new Promise((resolve) =>
+                    setTimeout(resolve, remainingDelay),
+                  );
+
+                  setAnalysisResult(result);
+                  setShowResults(true);
+                  setIsProcessing(false);
+                } else {
+                  // Ensure minimum spinner display time (100ms)
+                  const elapsed = Date.now() - startTime;
+                  const minDelay = 100;
+                  const remainingDelay = Math.max(0, minDelay - elapsed);
+
+                  await new Promise((resolve) =>
+                    setTimeout(resolve, remainingDelay),
+                  );
+
+                  setIsProcessing(false);
+                  toast.error(
+                    "Tidak ada QR Code terdeteksi\nCoba foto yang lebih jelas atau dengan cahaya lebih terang",
+                  );
+                }
+              } else {
+                setIsProcessing(false);
+                toast.error(
+                  "Gagal memproses gambar\nPastikan format gambar valid (JPG/PNG)",
+                );
+              }
             };
-          }
-
-          const result = {
-            type: decoded.type === QRType.QRIS ? "QRIS Payment" : decoded.type,
-            merchant: decoded.parsedData.merchantName,
-            nmid: decoded.parsedData.nmid || decoded.parsedData.merchantId,
-            city: decoded.parsedData.merchantCity,
-            amount: decoded.parsedData.transactionAmount
-              ? `Rp ${parseFloat(decoded.parsedData.transactionAmount).toLocaleString("id-ID")}`
-              : undefined,
-            checks: securityAnalysis.checks.map((check: any) => check.name),
-            rawData: decoded.rawData,
-            securityAnalysis,
+            img.src = e.target?.result as string;
           };
-
-          setAnalysisResult(result);
-          setShowResults(true);
-        } else {
-          alert("Tidak ada QR Code terdeteksi di gambar ini");
+          reader.readAsDataURL(file);
+        } catch (error) {
+          setIsProcessing(false);
+          toast.error("Terjadi kesalahan\nCoba upload ulang gambar QR Code");
         }
       } else {
-        alert("File terlalu besar. Maksimal 5MB");
+        toast.error(
+          "File terlalu besar (maks 5MB)\nKompres gambar atau gunakan gambar lain",
+        );
       }
     } else {
-      alert("Format file tidak didukung. Gunakan JPG atau PNG");
+      toast.error("Format tidak didukung\nGunakan file JPG atau PNG");
     }
   };
 
@@ -153,20 +224,35 @@ export default function UploadScannerPage() {
           </p>
 
           <div
-            onClick={handleClick}
-            onDragOver={handleDragOver}
+            onClick={isProcessing ? undefined : handleClick}
+            onDragOver={isProcessing ? undefined : handleDragOver}
             onDragLeave={handleDragLeave}
-            onDrop={handleDrop}
-            className={`w-[350px] h-[170px] border-2 border-lime rounded-[47px] flex flex-col items-center justify-center gap-3 cursor-pointer transition-colors ${
-              isDragging ? "bg-lime/10" : "hover:bg-lime/5"
+            onDrop={isProcessing ? undefined : handleDrop}
+            className={`w-[350px] h-[170px] border-2 border-lime rounded-[47px] flex flex-col items-center justify-center gap-3 transition-colors relative ${
+              isProcessing
+                ? "bg-lime/5 cursor-wait"
+                : isDragging
+                  ? "bg-lime/10 cursor-pointer"
+                  : "hover:bg-lime/5 cursor-pointer"
             }`}
           >
-            <Upload className="w-10 h-10 text-text/30" />
-            <p className="text-text/30 text-sm font-semibold text-center px-8">
-              {selectedFile
-                ? selectedFile.name
-                : "Drag & Drop atau Klik untuk upload foto QR"}
-            </p>
+            {isProcessing ? (
+              <>
+                <div className="animate-spin rounded-full h-10 w-10 border-4 border-lime border-t-transparent"></div>
+                <p className="text-text/50 text-sm font-semibold">
+                  Memproses gambar...
+                </p>
+              </>
+            ) : (
+              <>
+                <Upload className="w-10 h-10 text-text/30" />
+                <p className="text-text/30 text-sm font-semibold text-center px-8">
+                  {selectedFile
+                    ? selectedFile.name
+                    : "Drag & Drop atau Klik untuk upload foto QR"}
+                </p>
+              </>
+            )}
           </div>
 
           <input

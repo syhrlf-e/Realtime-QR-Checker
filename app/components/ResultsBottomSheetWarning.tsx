@@ -77,8 +77,6 @@ export default function ResultsBottomSheetWarning({
 
   const handleReportSubmit = (reportData: any) => {
     console.log("Report submitted:", reportData);
-    // TODO: Send to Supabase
-    alert("Laporan berhasil dikirim! Terima kasih atas kontribusinya.");
     setShowReportModal(false);
     onClose();
   };

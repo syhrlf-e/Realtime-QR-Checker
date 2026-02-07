@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
+import toast from "react-hot-toast";
 
 interface ReportModalProps {
   onClose: () => void;
@@ -31,18 +32,52 @@ export default function ReportModal({
   const [selectedCategory, setSelectedCategory] = useState<string>("");
   const [detail, setDetail] = useState("");
   const [location, setLocation] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!selectedCategory || !detail.trim()) {
-      alert("Mohon pilih kategori dan isi detail laporan");
+      toast.error("Mohon pilih kategori dan isi detail laporan");
       return;
     }
 
-    onSubmit({
-      category: selectedCategory,
-      detail: detail.trim(),
-      location: location.trim() || undefined,
-    });
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch("/api/reports", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          qr_type: qrData?.type || "Unknown",
+          qr_data: qrData?.rawData || "",
+          category: selectedCategory,
+          details: detail.trim(),
+          location: location.trim() || null,
+          security_status: qrData?.securityAnalysis?.overallStatus || null,
+          security_checks: qrData?.securityAnalysis?.checks || null,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || "Failed to submit report");
+      }
+
+      toast.success("Laporan berhasil dikirim!");
+      onSubmit({
+        category: selectedCategory,
+        detail: detail.trim(),
+        location: location.trim() || undefined,
+      });
+      onClose();
+    } catch (error) {
+      console.error("Submit error:", error);
+      toast.error("Gagal mengirim laporan. Silakan coba lagi.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   // Prevent body scroll when modal is open
@@ -129,10 +164,15 @@ export default function ReportModal({
           <div className="flex justify-center pb-10">
             <button
               onClick={handleSubmit}
-              className="w-[160px] h-[44px] bg-lime rounded-full hover:bg-lime/90 transition-colors"
+              disabled={isSubmitting}
+              className={`w-[160px] h-[44px] rounded-full transition-colors ${
+                isSubmitting
+                  ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                  : "bg-lime text-text hover:bg-lime/90"
+              }`}
             >
-              <span className="text-text font-semibold text-sm">
-                Kirim Laporan
+              <span className="font-semibold text-sm">
+                {isSubmitting ? "Mengirim..." : "Kirim Laporan"}
               </span>
             </button>
           </div>

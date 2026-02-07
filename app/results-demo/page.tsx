@@ -1,5 +1,7 @@
 "use client";
 
+import toast from "react-hot-toast";
+
 import { useState } from "react";
 import ResultsBottomSheetSafe from "../components/ResultsBottomSheetSafe";
 
@@ -34,7 +36,7 @@ export default function ResultsDemoPage() {
           onClose={() => setShowResults(false)}
           onScanAgain={() => {
             setShowResults(false);
-            alert("Scan QR Lain clicked!");
+            toast.success("Scan QR Lain clicked!");
           }}
         />
       )}

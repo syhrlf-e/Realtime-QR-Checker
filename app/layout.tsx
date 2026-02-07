@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
+import { Toaster } from "react-hot-toast";
 import "./globals.css";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
@@ -23,6 +24,30 @@ export default function RootLayout({
     <html lang="id">
       <body className={`${plusJakartaSans.variable} font-sans antialiased`}>
         {children}
+        <Toaster
+          position="top-center"
+          toastOptions={{
+            duration: 3000,
+            style: {
+              background: "#333",
+              color: "#fff",
+              borderRadius: "50px",
+              padding: "12px 20px",
+            },
+            success: {
+              iconTheme: {
+                primary: "#B0FF1F",
+                secondary: "#333",
+              },
+            },
+            error: {
+              iconTheme: {
+                primary: "#FF0000",
+                secondary: "#fff",
+              },
+            },
+          }}
+        />
       </body>
     </html>
   );
