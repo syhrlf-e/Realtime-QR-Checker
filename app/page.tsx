@@ -67,14 +67,17 @@ export default function HomePage() {
             </Link>
           </div>
 
-          <button className="w-[350px] h-[57px] border-2 border-lime rounded-full flex items-center justify-between px-6 hover:bg-lime/5 transition-colors">
+          <Link
+            href="/reports"
+            className="w-[350px] h-[57px] border-2 border-lime rounded-full flex items-center justify-between px-6 hover:bg-lime/5 transition-colors"
+          >
             <span className="text-text font-medium text-sm">
               Lihat Laporan Penipuan
             </span>
             <div className="w-[29px] h-[29px] bg-lime rounded-full flex items-center justify-center">
               <ArrowUpRight className="w-[18px] h-[18px] text-text" />
             </div>
-          </button>
+          </Link>
 
           <div className="space-y-6">
             <h2 className="text-text font-medium text-base">
