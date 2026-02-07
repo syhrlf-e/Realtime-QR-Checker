@@ -113,12 +113,22 @@ function parseQRIS(data: string): Record<string, any> {
       const value = data.substring(index + 4, index + 4 + length);
 
       if (tag === "26") {
+        // Merchant Account Information - Domestic
         const merchantData = parseTLV(value);
         result.merchantPAN = merchantData["00"] || "";
         result.merchantId = merchantData["01"] || "";
       } else if (tag === "51") {
-        result.merchantCategoryCode = value;
+        // Merchant Account Information - Domestic (Tag 51)
+        // This contains the NMID
+        const domesticData = parseTLV(value);
+        result.nmid = domesticData["02"] || "";
+        // Fallback: if tag 02 not found, use entire value
+        if (!result.nmid && value.startsWith("ID")) {
+          result.nmid = value;
+        }
       } else if (tag === "52") {
+        result.merchantCategoryCode = value;
+      } else if (tag === "53") {
         result.transactionCurrency = value;
       } else if (tag === "54") {
         result.transactionAmount = value;
@@ -131,7 +141,10 @@ function parseQRIS(data: string): Record<string, any> {
       index += 4 + length;
     }
 
-    result.nmid = result.merchantId || "";
+    // Fallback: if NMID not found in tag 51, try merchantId
+    if (!result.nmid) {
+      result.nmid = result.merchantId || "";
+    }
   } catch (error) {
     console.error("Error parsing QRIS:", error);
   }
