@@ -10,7 +10,7 @@ import { analyzeURL } from "@/app/lib/url-analyzer";
 import { analyzeQRIS } from "@/app/lib/qris-analyzer";
 import ResultsBottomSheetSafe from "@/app/components/ResultsBottomSheetSafe";
 import ResultsBottomSheetWarning from "@/app/components/ResultsBottomSheetWarning";
-import { AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 
 export default function UploadScannerPage() {
   const router = useRouter();
@@ -19,6 +19,8 @@ export default function UploadScannerPage() {
   const [showResults, setShowResults] = useState(false);
   const [analysisResult, setAnalysisResult] = useState<any>(null);
   const [isProcessing, setIsProcessing] = useState(false);
+
+  // ... (keep existing handlers: handleDragOver, handleDragLeave, handleDrop, handleFileSelect, handleClick, handleFileInputChange)
 
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();
@@ -162,36 +164,38 @@ export default function UploadScannerPage() {
 
           <div className="h-8" />
 
-          <div
-            onClick={isProcessing ? undefined : handleClick}
-            onDragOver={isProcessing ? undefined : handleDragOver}
-            onDragLeave={handleDragLeave}
-            onDrop={isProcessing ? undefined : handleDrop}
-            className={`w-full max-w-[350px] mx-auto h-[200px] bg-bg-secondary border-2 border-text-light rounded-[32px] flex flex-col items-center justify-center gap-4 transition-colors relative ${
-              isProcessing
-                ? "cursor-wait"
-                : isDragging
-                  ? "bg-text-light/5 cursor-pointer"
-                  : "hover:bg-text-light/5 cursor-pointer"
-            }`}
-          >
-            {isProcessing ? (
-              <>
-                <div className="animate-spin rounded-full h-10 w-10 border-4 border-text-light border-t-transparent" />
-                <p className="text-text-base/50 text-sm font-medium">
-                  Memproses gambar...
-                </p>
-              </>
-            ) : (
-              <>
-                <ImageIcon className="w-10 h-10 text-text-base/30" />
-                <p className="text-text-base/30 text-sm font-medium text-center px-8">
-                  Drag & Drop atau Klik
-                  <br />
-                  untuk upload foto QR
-                </p>
-              </>
-            )}
+          <div className="relative w-full max-w-[350px] mx-auto mb-5">
+            <div
+              onClick={isProcessing ? undefined : handleClick}
+              onDragOver={isProcessing ? undefined : handleDragOver}
+              onDragLeave={handleDragLeave}
+              onDrop={isProcessing ? undefined : handleDrop}
+              className={`w-full h-[200px] bg-bg-secondary border-2 border-text-light rounded-[32px] flex flex-col items-center justify-center gap-4 transition-colors relative ${
+                isProcessing
+                  ? "cursor-wait"
+                  : isDragging
+                    ? "bg-text-light/5 cursor-pointer"
+                    : "hover:bg-text-light/5 cursor-pointer"
+              }`}
+            >
+              {isProcessing ? (
+                <>
+                  <div className="animate-spin rounded-full h-10 w-10 border-4 border-text-light border-t-transparent" />
+                  <p className="text-text-base/50 text-sm font-medium">
+                    Memproses gambar...
+                  </p>
+                </>
+              ) : (
+                <>
+                  <ImageIcon className="w-10 h-10 text-text-base/30" />
+                  <p className="text-text-base/30 text-sm font-medium text-center px-8">
+                    Drag & Drop atau Klik
+                    <br />
+                    untuk upload foto QR
+                  </p>
+                </>
+              )}
+            </div>
           </div>
 
           <input
@@ -210,19 +214,20 @@ export default function UploadScannerPage() {
 
           <div className="flex-1" />
 
-          <div className="flex items-center gap-3 w-full max-w-[350px] mx-auto pb-6">
+          <div className="flex w-full max-w-[350px] mx-auto pb-6">
             <button
               onClick={() => router.push("/")}
-              className="w-[45px] h-[45px] bg-bg-secondary rounded-full flex items-center justify-center hover:bg-bg-secondary/80 transition-colors"
+              className="flex items-center hover:opacity-90 transition-opacity group"
             >
-              <ArrowLeft className="w-5 h-5 text-text-light" />
-            </button>
+              <div className="w-[45px] h-[45px] rounded-full bg-[#15151A] flex items-center justify-center relative z-10">
+                <ArrowLeft className="w-[18px] h-[18px] text-[#B0FF1F]" />
+              </div>
 
-            <button
-              onClick={() => router.push("/")}
-              className="text-text-light font-medium text-sm hover:opacity-80 transition-opacity"
-            >
-              Kembali
+              <div className="w-[96px] h-[44px] bg-[#15151A] rounded-full flex items-center justify-center -ml-3">
+                <span className="font-medium text-[14px] text-[#B0FF1F]">
+                  Kembali
+                </span>
+              </div>
             </button>
           </div>
         </div>

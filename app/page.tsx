@@ -2,50 +2,44 @@
 
 import { Camera, ImageIcon, ArrowUpRight } from "lucide-react";
 import Link from "next/link";
+import { motion, AnimatePresence } from "framer-motion";
+import { useState } from "react";
 
-export default function HomePage() {
+const HomePage = () => {
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
+
   return (
-    <main className="min-h-screen bg-bg-primary overflow-hidden">
+    <main className="min-h-screen bg-bg-primary pb-[240px] pt-[20px]">
       <div className="mx-auto max-w-md w-full px-5">
-        <div className="h-5" />
-
+        {/* Header - Gap 20 from top is handled by main pt-[20px] */}
         <div className="w-full max-w-[350px] mx-auto h-[55px] bg-bg-header rounded-full flex items-center justify-center">
-          <h1
-            className="font-semibold text-[20px] leading-none"
-            style={{ color: "#15151A" }}
-          >
+          <h1 className="font-semibold text-[20px] leading-none text-[#15151A]">
             Realtime QR Checker
           </h1>
         </div>
 
+        {/* Gap 35 */}
         <div className="h-[35px]" />
 
+        {/* Hero Text */}
         <p className="text-center font-medium text-[16px] leading-relaxed">
-          <span style={{ color: "#B0FF1F" }}>
+          <span className="text-[#B0FF1F]">
             &ldquo;Jangan asal scan QR Code, cek dulu
             <br />
           </span>
-          <span
-            className="px-1"
-            style={{
-              backgroundColor: "rgba(255, 63, 63, 0.84)",
-              color: "#B0FF1F",
-            }}
-          >
+          <span className="px-1 bg-[#FF3F3F]/84 text-[#B0FF1F]">
             keamanannya
           </span>
-          <span style={{ color: "#B0FF1F" }}> disini&rdquo;</span>
+          <span className="text-[#B0FF1F]"> disini&rdquo;</span>
         </p>
 
-        <div className="h-8" />
+        {/* Gap 32 */}
+        <div className="h-[32px]" />
 
+        {/* Scan Box */}
         <Link
           href="/scan/camera"
-          className="block w-full h-[281px] rounded-[32px] flex flex-col items-center justify-center gap-4 transition-all duration-300"
-          style={{
-            backgroundColor: "#15151A",
-            border: "1px solid #B0FF1F",
-          }}
+          className="block w-full h-[281px] rounded-[32px] flex flex-col items-center justify-center gap-4 transition-all duration-300 bg-[#15151A] border border-[#B0FF1F] hover:bg-[#15151A]/80 relative"
         >
           <Camera className="w-10 h-10 text-text-base/40" />
           <span className="text-text-base/40 font-medium text-sm">
@@ -53,104 +47,80 @@ export default function HomePage() {
           </span>
         </Link>
 
-        <div className="h-6" />
+        {/* Gap 24 */}
+        <div className="h-[24px]" />
 
+        {/* Buttons Row */}
         <div className="flex gap-3 w-full justify-center">
+          {/* Upload Gallery */}
           <Link
             href="/scan/upload"
-            className="flex items-center justify-center gap-2 rounded-[50px] transition-all duration-300"
-            style={{
-              width: "171px",
-              height: "57px",
-              backgroundColor: "rgba(245, 245, 245, 0.1)",
-              border: "1px solid #797979",
-              backdropFilter: "blur(20px)",
-              WebkitBackdropFilter: "blur(20px)",
-            }}
+            className="flex items-center justify-center gap-[8px] rounded-[50px] transition-all duration-300 w-[171px] h-[57px] bg-[#F5F5F5]/10 border border-[#797979] backdrop-blur-[20px] hover:bg-[#F5F5F5]/20"
           >
-            <ImageIcon
-              style={{
-                width: "15px",
-                height: "15px",
-                color: "#B0FF1F",
-                filter: "drop-shadow(0 0 8px rgba(176, 255, 31, 0.8))",
-              }}
-            />
-            <span
-              className="font-semibold text-[12px]"
-              style={{ color: "#B0FF1F" }}
-            >
+            <ImageIcon className="w-[15px] h-[15px] text-[#B0FF1F] drop-shadow-[0_0_8px_rgba(176,255,31,0.8)]" />
+            <span className="font-semibold text-[12px] text-[#B0FF1F]">
               Upload dari galeri
             </span>
           </Link>
 
+          {/* Search Reports */}
           <Link
             href="/reports"
-            className="flex items-center justify-center gap-2 rounded-[50px] transition-all duration-300"
-            style={{
-              width: "171px",
-              height: "57px",
-              backgroundColor: "rgba(245, 245, 245, 0.1)",
-              border: "1px solid #797979",
-              backdropFilter: "blur(20px)",
-              WebkitBackdropFilter: "blur(20px)",
-            }}
+            className="flex items-center justify-center gap-[8px] rounded-[50px] transition-all duration-300 w-[171px] h-[57px] bg-[#F5F5F5]/10 border border-[#797979] backdrop-blur-[20px] hover:bg-[#F5F5F5]/20"
           >
-            <span
-              className="font-semibold text-[12px]"
-              style={{ color: "#B0FF1F" }}
-            >
+            <span className="font-semibold text-[12px] text-[#B0FF1F]">
               Cari hasil laporan
             </span>
-            <div
-              className="rounded-full flex items-center justify-center"
-              style={{
-                width: "29px",
-                height: "29px",
-                backgroundColor: "#B0FF1F",
-                boxShadow: "0 0 12px rgba(176, 255, 31, 0.8)",
-              }}
-            >
-              <ArrowUpRight
-                style={{ width: "14px", height: "14px", color: "#15151A" }}
-              />
+            <div className="rounded-full flex items-center justify-center w-[29px] h-[29px] bg-[#B0FF1F] shadow-[0_0_12px_rgba(176,255,31,0.8)]">
+              <ArrowUpRight className="w-[14px] h-[14px] text-[#15151A]" />
             </div>
           </Link>
         </div>
 
-        <div className="h-9" />
+        {/* Gap 36 */}
+        <div className="h-[36px]" />
+      </div>
 
-        <div
-          className="mx-auto flex flex-col items-center"
-          style={{ width: "390px" }}
-        >
-          <div
-            style={{
-              width: "62px",
-              height: "1px",
-              backgroundColor: "rgba(245, 245, 245, 0.2)",
-            }}
-          />
+      {/* Interactive Slide-up Footer */}
+      <motion.div
+        animate={{
+          height: isSheetOpen ? "auto" : "90px",
+        }}
+        initial={false}
+        transition={{ type: "spring", stiffness: 300, damping: 30 }}
+        onClick={() => setIsSheetOpen(!isSheetOpen)}
+        className="fixed bottom-0 left-0 right-0 bg-[#15151A] rounded-t-[32px] z-20 shadow-[0_-10px_40px_rgba(0,0,0,0.5)] cursor-pointer overflow-hidden"
+      >
+        <div className="mx-auto flex flex-col items-center w-full max-w-[390px] pt-4 pb-8">
+          {/* Drag Handle */}
+          <div className="w-[62px] h-[4px] bg-white/20 rounded-full mb-6" />
 
-          <div className="h-8" />
-
-          <h2
-            className="text-center font-semibold text-[16px] mb-4"
-            style={{ color: "rgba(245, 245, 245, 0.6)" }}
-          >
+          <h2 className="text-center font-semibold text-[16px] text-[#F5F5F5]/60 mb-2">
             Hasil scan realtime dan akurat
           </h2>
 
-          <p
-            className="text-center font-medium text-[12px] leading-relaxed px-4"
-            style={{ color: "rgba(245, 245, 245, 0.6)" }}
-          >
-            Disini kami berkomitmen membantu anda dalam memecahkan masalah
-            ketika anda bingung isi qr ini apa dan mengurangi resiko menajadi
-            korban penipuan
-          </p>
+          <AnimatePresence>
+            {isSheetOpen && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.3 }}
+                className="px-8"
+              >
+                <div className="h-4" />
+                <p className="text-center font-medium text-[12px] leading-relaxed text-[#F5F5F5]/60">
+                  Disini kami berkomitmen membantu anda dalam memecahkan masalah
+                  ketika anda bingung isi qr ini apa dan mengurangi resiko
+                  menajadi korban penipuan
+                </p>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
-      </div>
+      </motion.div>
     </main>
   );
-}
+};
+
+export default HomePage;

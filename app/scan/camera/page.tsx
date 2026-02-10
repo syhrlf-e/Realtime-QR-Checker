@@ -3,7 +3,7 @@
 import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
-import { AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import toast from "react-hot-toast";
 import { useQRScanner } from "@/app/hooks/useQRScanner";
 import { decodeQR, QRType } from "@/app/lib/qr-decoder";
@@ -106,7 +106,19 @@ export default function CameraScannerPage() {
                 className="absolute inset-0 w-full h-full object-cover"
               />
 
-              <div className="absolute inset-0 flex items-center justify-center">
+              {/* Scanner Line Animation */}
+              <motion.div
+                initial={{ top: "0%" }}
+                animate={{ top: "100%" }}
+                transition={{
+                  duration: 2,
+                  repeat: Infinity,
+                  ease: "linear",
+                }}
+                className="absolute left-0 right-0 h-[2px] bg-[#B0FF1F] shadow-[0_0_20px_#B0FF1F] z-10"
+              />
+
+              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                 <div className="relative w-[180px] h-[180px]">
                   <div className="absolute top-0 left-0 w-10 h-10 border-t-[3px] border-l-[3px] border-text-light rounded-tl-xl" />
                   <div className="absolute top-0 right-0 w-10 h-10 border-t-[3px] border-r-[3px] border-text-light rounded-tr-xl" />
@@ -116,19 +128,9 @@ export default function CameraScannerPage() {
               </div>
             </div>
 
-            <div className="absolute -bottom-5 left-0 right-0 flex justify-center">
-              <div
-                className="flex items-center justify-center rounded-[50px]"
-                style={{
-                  width: "204px",
-                  height: "40px",
-                  backgroundColor: "#B0FF1F",
-                }}
-              >
-                <p
-                  className="font-medium text-[14px]"
-                  style={{ color: "#121C00" }}
-                >
+            <div className="absolute -bottom-5 left-0 right-0 flex justify-center z-20">
+              <div className="flex items-center justify-center rounded-[50px] w-[204px] h-[40px] bg-[#B0FF1F] shadow-lg">
+                <p className="font-medium text-[14px] text-[#121C00]">
                   Mencari QR Code
                   <span className="inline-block animate-pulse">.</span>
                   <span
@@ -156,22 +158,16 @@ export default function CameraScannerPage() {
                 stopScanning();
                 router.push("/");
               }}
-              className="flex items-center hover:opacity-90 transition-opacity"
+              className="flex items-center hover:opacity-90 transition-opacity group"
             >
-              <div
-                className="w-[45px] h-[45px] rounded-l-full flex items-center justify-center"
-                style={{ backgroundColor: "#15151A" }}
-              >
-                <ArrowLeft className="w-5 h-5" style={{ color: "#B0FF1F" }} />
+              {/* Icon Container (Circle) */}
+              <div className="w-[45px] h-[45px] rounded-full bg-[#15151A] flex items-center justify-center relative z-10">
+                <ArrowLeft className="w-[18px] h-[18px] text-[#B0FF1F]" />
               </div>
-              <div
-                className="h-[45px] px-4 rounded-r-full flex items-center justify-center"
-                style={{ backgroundColor: "#15151A" }}
-              >
-                <span
-                  className="font-medium text-sm"
-                  style={{ color: "#B0FF1F" }}
-                >
+
+              {/* Text Container (Pill) - Overlaps with icon */}
+              <div className="w-[96px] h-[44px] bg-[#15151A] rounded-full flex items-center justify-center -ml-3">
+                <span className="font-medium text-[14px] text-[#B0FF1F]">
                   Kembali
                 </span>
               </div>

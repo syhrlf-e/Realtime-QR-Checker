@@ -123,8 +123,8 @@ export default function ResultsBottomSheetSafe({
 
           {/* Type pill */}
           <div className="flex justify-center mb-6">
-            <div className="px-6 py-2 border border-text-light rounded-full">
-              <span className="text-text-base font-medium text-sm">
+            <div className="px-6 py-2 bg-header rounded-full">
+              <span className="text-text-dark font-medium text-sm">
                 {data.type}
               </span>
             </div>
@@ -149,7 +149,7 @@ export default function ResultsBottomSheetSafe({
                   <span className="text-text-light text-xs font-medium">
                     NMID
                   </span>
-                  <span className="text-text-base text-sm font-medium text-right">
+                  <span className="text-text-light text-sm font-medium text-right">
                     {data.nmid}
                   </span>
                 </div>
@@ -160,7 +160,7 @@ export default function ResultsBottomSheetSafe({
                   <span className="text-text-light text-xs font-medium">
                     Kota
                   </span>
-                  <span className="text-text-base text-sm font-medium text-right">
+                  <span className="text-text-light text-sm font-medium text-right">
                     {data.city}
                   </span>
                 </div>
@@ -171,7 +171,7 @@ export default function ResultsBottomSheetSafe({
                   <span className="text-text-light text-xs font-medium">
                     Amount
                   </span>
-                  <span className="text-text-base text-sm font-medium text-right">
+                  <span className="text-text-light text-sm font-medium text-right">
                     {data.amount}
                   </span>
                 </div>
@@ -194,22 +194,26 @@ export default function ResultsBottomSheetSafe({
           <div className="space-y-4 mb-8">
             {securityChecks.map((check: any, index: number) => (
               <div key={index} className="flex items-center gap-3">
-                <CheckCircle2
-                  className="w-5 h-5 text-text-light flex-shrink-0"
-                  strokeWidth={2.5}
-                />
-                <p className="text-text-base font-medium text-sm">
+                <div className="w-5 h-5 rounded-full bg-text-light flex items-center justify-center flex-shrink-0">
+                  <CheckCircle2
+                    className="w-3.5 h-3.5 text-bg-primary"
+                    strokeWidth={3}
+                  />
+                </div>
+                <p className="text-text-light font-medium text-sm">
                   {check.name}
                 </p>
               </div>
             ))}
           </div>
 
+          <div className="flex-1" />
+
           {/* Report bar */}
-          <div className="w-full bg-bg-secondary border border-text-base/10 rounded-full px-5 py-3 flex items-center justify-between mb-6">
-            <div className="flex items-center gap-2">
-              <div className="w-5 h-5 rounded-full border border-text-base/30 flex items-center justify-center">
-                <span className="text-text-base/50 text-xs">!</span>
+          <div className="w-full bg-bg-secondary border border-text-base/10 rounded-full pl-5 pr-2 py-2 flex items-center justify-between mb-6">
+            <div className="flex items-center gap-3">
+              <div className="w-5 h-5 rounded-full border border-[#FFB800] flex items-center justify-center">
+                <span className="text-[#FFB800] text-xs font-bold">!</span>
               </div>
               <span className="text-text-base/60 font-medium text-xs">
                 Lihat sesuatu yang mencurigakan?
@@ -217,9 +221,9 @@ export default function ResultsBottomSheetSafe({
             </div>
             <button
               onClick={() => setShowReportModal(true)}
-              className="px-4 py-1.5 border border-text-light rounded-full hover:bg-text-light/10 transition-colors"
+              className="px-5 py-2.5 bg-[#1A1A1E] rounded-full hover:bg-white/5 transition-colors"
             >
-              <span className="text-text-light font-medium text-xs">
+              <span className="text-[#FFB800] font-medium text-xs">
                 Laporkan
               </span>
             </button>
@@ -229,7 +233,7 @@ export default function ResultsBottomSheetSafe({
           <div className="flex justify-center">
             <button
               onClick={onScanAgain}
-              className="h-[44px] px-8 bg-text-light rounded-full hover:opacity-90 transition-opacity flex items-center justify-center"
+              className="w-full max-w-[200px] h-[50px] bg-header rounded-full hover:opacity-90 transition-opacity flex items-center justify-center shadow-[0_0_20px_rgba(176,255,31,0.3)]"
             >
               <span className="text-text-dark font-semibold text-sm">
                 Scan QR Lain

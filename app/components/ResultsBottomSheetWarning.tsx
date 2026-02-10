@@ -123,7 +123,7 @@ export default function ResultsBottomSheetWarning({
 
           {/* Type pill */}
           <div className="flex justify-center mb-6">
-            <div className="px-6 py-2 border border-text-light rounded-full">
+            <div className="px-6 py-2 bg-text-warning rounded-full">
               <span className="text-text-base font-medium text-sm">
                 {data.type}
               </span>
@@ -194,10 +194,12 @@ export default function ResultsBottomSheetWarning({
           <div className="space-y-4 mb-8">
             {securityChecks.map((check: any, index: number) => (
               <div key={index} className="flex items-center gap-3">
-                <X
-                  className="w-5 h-5 text-text-warning flex-shrink-0"
-                  strokeWidth={2.5}
-                />
+                <div className="w-5 h-5 rounded-full bg-text-warning/20 flex items-center justify-center flex-shrink-0">
+                  <X
+                    className="w-3.5 h-3.5 text-text-warning"
+                    strokeWidth={3}
+                  />
+                </div>
                 <p className="text-text-base font-medium text-sm">
                   {check.name}
                 </p>
@@ -208,17 +210,21 @@ export default function ResultsBottomSheetWarning({
           <div className="h-2" />
 
           {/* Warning banner */}
-          <div className="w-full h-[41px] bg-text-warning/10 border border-text-warning rounded-full flex items-center justify-center px-4 mb-8">
-            <p className="text-text-warning font-normal text-xs text-center">
-              Jangan lanjutkan transaksi apapun dengan QR ini
+          <div className="w-full py-3 bg-text-warning/10 border border-text-warning rounded-2xl flex items-center justify-center px-4 mb-8">
+            <p className="text-text-warning font-medium text-xs text-center leading-relaxed">
+              Jangan lanjutkan transaksi apapun
+              <br />
+              dengan QR ini
             </p>
           </div>
 
+          <div className="flex-1" />
+
           {/* Action buttons */}
-          <div className="flex gap-4 justify-center">
+          <div className="flex flex-col gap-3 justify-center w-full">
             <button
               onClick={onScanAgain}
-              className="h-[44px] px-6 bg-text-light rounded-full hover:opacity-90 transition-opacity flex items-center justify-center"
+              className="w-full h-[50px] bg-header rounded-full hover:opacity-90 transition-opacity flex items-center justify-center shadow-[0_0_20px_rgba(176,255,31,0.3)]"
             >
               <span className="text-text-dark font-semibold text-sm">
                 Scan QR Lain
@@ -227,7 +233,7 @@ export default function ResultsBottomSheetWarning({
 
             <button
               onClick={() => setShowReportModal(true)}
-              className="h-[44px] px-6 border border-text-warning rounded-full hover:bg-text-warning/10 transition-colors flex items-center justify-center"
+              className="w-full h-[50px] border border-text-warning rounded-full hover:bg-text-warning/10 transition-colors flex items-center justify-center"
             >
               <span className="text-text-warning font-medium text-sm">
                 Laporkan penipuan
