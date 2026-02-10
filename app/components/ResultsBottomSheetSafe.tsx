@@ -98,7 +98,7 @@ export default function ResultsBottomSheetSafe({
         animate={{ y: 0 }}
         exit={{ y: "100%" }}
         transition={{ type: "spring", damping: 30, stiffness: 300 }}
-        className="relative w-full bg-bg-primary rounded-t-3xl overflow-hidden"
+        className="relative w-full bg-[#15151A] rounded-t-3xl overflow-hidden"
         style={{ height: "90vh" }}
       >
         <div className="px-5 pt-4 h-full overflow-y-auto pb-10">
@@ -121,74 +121,76 @@ export default function ResultsBottomSheetSafe({
             QR Code Terlihat Aman
           </h2>
 
-          {/* Type pill */}
-          <div className="flex justify-center mb-6">
-            <div className="px-6 py-2 bg-header rounded-full">
-              <span className="text-text-dark font-medium text-sm">
-                {data.type}
-              </span>
+          <div className="relative mt-6 mb-8">
+            {/* Floating Type Pill */}
+            <div className="absolute -top-5 left-0 right-0 flex justify-center z-10">
+              <div className="px-6 py-2 bg-[#B0FF1F] rounded-full shadow-lg">
+                <span className="text-[#121C00] font-medium text-sm">
+                  {data.type}
+                </span>
+              </div>
+            </div>
+
+            {/* Data Box */}
+            <div className="w-full bg-[#1A1A20] rounded-2xl p-5 pt-10">
+              {isQRIS && hasDetailedInfo ? (
+                <div className="space-y-4">
+                  {data.merchant && (
+                    <div className="flex justify-between items-start">
+                      <span className="text-[#B0FF1F]/50 text-xs font-medium">
+                        Merchant
+                      </span>
+                      <span className="text-[#B0FF1F] text-sm font-medium text-right">
+                        {data.merchant}
+                      </span>
+                    </div>
+                  )}
+
+                  {data.nmid && (
+                    <div className="flex justify-between items-start">
+                      <span className="text-[#B0FF1F]/50 text-xs font-medium">
+                        NMID
+                      </span>
+                      <span className="text-[#B0FF1F] text-sm font-medium text-right">
+                        {data.nmid}
+                      </span>
+                    </div>
+                  )}
+
+                  {data.city && (
+                    <div className="flex justify-between items-start">
+                      <span className="text-[#B0FF1F]/50 text-xs font-medium">
+                        Kota
+                      </span>
+                      <span className="text-[#B0FF1F] text-sm font-medium text-right">
+                        {data.city}
+                      </span>
+                    </div>
+                  )}
+
+                  {data.amount && (
+                    <div className="flex justify-between items-start">
+                      <span className="text-[#B0FF1F]/50 text-xs font-medium">
+                        Amount
+                      </span>
+                      <span className="text-[#B0FF1F] text-sm font-medium text-right">
+                        {data.amount}
+                      </span>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <div className="text-center">
+                  <p className="text-[#B0FF1F]/50 text-xs font-medium mb-2">
+                    QR Content:
+                  </p>
+                  <p className="text-[#B0FF1F] text-sm font-medium break-all">
+                    {data.rawData}
+                  </p>
+                </div>
+              )}
             </div>
           </div>
-
-          {/* Info card */}
-          {isQRIS && hasDetailedInfo && (
-            <div className="w-full bg-bg-secondary rounded-2xl p-5 mb-8 border border-text-base/10">
-              {data.merchant && (
-                <div className="flex justify-between items-start mb-4">
-                  <span className="text-text-light text-xs font-medium">
-                    Merchant
-                  </span>
-                  <span className="text-text-base text-sm font-medium text-right">
-                    {data.merchant}
-                  </span>
-                </div>
-              )}
-
-              {data.nmid && (
-                <div className="flex justify-between items-start mb-4">
-                  <span className="text-text-light text-xs font-medium">
-                    NMID
-                  </span>
-                  <span className="text-text-light text-sm font-medium text-right">
-                    {data.nmid}
-                  </span>
-                </div>
-              )}
-
-              {data.city && (
-                <div className="flex justify-between items-start mb-4">
-                  <span className="text-text-light text-xs font-medium">
-                    Kota
-                  </span>
-                  <span className="text-text-light text-sm font-medium text-right">
-                    {data.city}
-                  </span>
-                </div>
-              )}
-
-              {data.amount && (
-                <div className="flex justify-between items-start">
-                  <span className="text-text-light text-xs font-medium">
-                    Amount
-                  </span>
-                  <span className="text-text-light text-sm font-medium text-right">
-                    {data.amount}
-                  </span>
-                </div>
-              )}
-            </div>
-          )}
-
-          {!isQRIS && data.rawData && (
-            <div className="w-full bg-bg-secondary rounded-2xl p-5 mb-8 border border-text-base/10">
-              <p className="text-text-light text-xs font-medium text-center mb-2">
-                QR Content:
-              </p>
-              <p className="text-text-base text-sm font-medium break-all text-center">
-                {data.rawData}
-              </p>
-            </div>
-          )}
 
           {/* Security checks */}
           <div className="space-y-4 mb-8">
@@ -233,9 +235,9 @@ export default function ResultsBottomSheetSafe({
           <div className="flex justify-center">
             <button
               onClick={onScanAgain}
-              className="w-full max-w-[200px] h-[50px] bg-header rounded-full hover:opacity-90 transition-opacity flex items-center justify-center shadow-[0_0_20px_rgba(176,255,31,0.3)]"
+              className="w-full max-w-[200px] h-[50px] bg-[#B0FF1F] rounded-full hover:opacity-90 transition-opacity flex items-center justify-center shadow-[0_0_20px_rgba(176,255,31,0.3)]"
             >
-              <span className="text-text-dark font-semibold text-sm">
+              <span className="text-[#121C00] font-semibold text-sm">
                 Scan QR Lain
               </span>
             </button>
