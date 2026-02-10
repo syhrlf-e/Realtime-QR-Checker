@@ -214,7 +214,7 @@ export default function UploadScannerPage() {
 
           <div className="flex-1" />
 
-          <div className="flex w-full max-w-[350px] mx-auto pb-8">
+          <div className="flex w-full max-w-[350px] mx-auto pb-16">
             <button
               onClick={() => router.push("/")}
               className="flex items-center hover:opacity-90 transition-opacity group"
