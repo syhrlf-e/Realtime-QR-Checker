@@ -212,8 +212,8 @@ export default function ResultsBottomSheetWarning({
           <div className="h-2" />
 
           {/* Warning banner */}
-          <div className="w-full py-3 bg-text-warning/10 border border-text-warning rounded-2xl flex items-center justify-center px-4 mb-8">
-            <p className="text-text-warning font-medium text-xs text-center leading-relaxed">
+          <div className="w-full py-3 bg-[#FF0000]/20 border border-[#FF0000] rounded-2xl flex items-center justify-center px-4 mb-8">
+            <p className="text-[#f5f5f5] font-normal text-[14px] text-center leading-relaxed">
               Jangan lanjutkan transaksi
             </p>
           </div>
@@ -226,7 +226,7 @@ export default function ResultsBottomSheetWarning({
               onClick={onScanAgain}
               className="flex-1 h-[50px] bg-[#B0FF1F] rounded-full hover:opacity-90 transition-opacity flex items-center justify-center shadow-[0_0_20px_rgba(176,255,31,0.3)]"
             >
-              <span className="text-[#121C00] font-semibold text-xs sm:text-sm">
+              <span className="text-[#121C00] font-semibold text-[14px]">
                 Scan QR Lain
               </span>
             </button>
@@ -235,7 +235,7 @@ export default function ResultsBottomSheetWarning({
               onClick={() => setShowReportModal(true)}
               className="flex-1 h-[50px] border border-text-warning rounded-full hover:bg-text-warning/10 transition-colors flex items-center justify-center"
             >
-              <span className="text-text-warning font-medium text-xs sm:text-sm">
+              <span className="text-text-warning font-medium text-[14px]">
                 Laporkan
               </span>
             </button>
