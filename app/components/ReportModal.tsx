@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import toast from "react-hot-toast";
+import { ArrowLeft } from "lucide-react";
 
 interface ReportModalProps {
   onClose: () => void;
@@ -122,97 +123,92 @@ export default function ReportModal({
   }
 
   return (
-    <div className="fixed inset-0 z-[60] flex items-end justify-center">
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
-        onClick={onClose}
-      />
+    <motion.div
+      initial={{ opacity: 0, x: "100%" }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: "100%" }}
+      transition={{ type: "spring", damping: 30, stiffness: 300 }}
+      className="fixed inset-0 z-[60] bg-bg-primary flex flex-col"
+    >
+      {/* Header */}
+      <div className="px-5 py-4 flex items-center gap-4 bg-bg-primary border-b border-white/5">
+        <button
+          onClick={onClose}
+          className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-white/5 transition-colors -ml-2"
+        >
+          <ArrowLeft className="w-6 h-6 text-text-base" />
+        </button>
+        <h2 className="text-text-base font-semibold text-lg">
+          Laporkan Penipuan
+        </h2>
+      </div>
 
-      <motion.div
-        initial={{ y: "100%" }}
-        animate={{ y: 0 }}
-        exit={{ y: "100%" }}
-        transition={{ type: "spring", damping: 30, stiffness: 300 }}
-        className="relative w-full bg-bg-primary rounded-t-3xl overflow-hidden"
-        style={{ height: "90vh" }}
-      >
-        <div className="px-5 pt-4 h-full overflow-y-auto pb-10">
-          <div className="flex justify-center mb-6">
-            <div className="w-12 h-1 bg-text-base/20 rounded-full" />
-          </div>
-
-          <h2 className="text-text-light font-medium text-xl text-center mb-10">
-            Laporkan QR Penipuan
-          </h2>
-
-          <div className="mb-8">
-            <label className="text-text-base font-medium text-sm block mb-4">
-              Kategori Penipuan:
-            </label>
-            <div className="flex flex-wrap gap-2">
-              {CATEGORIES.map((category) => (
-                <button
-                  key={category}
-                  onClick={() => setSelectedCategory(category)}
-                  className={`px-4 py-2 rounded-full text-sm font-medium transition-colors border ${
-                    selectedCategory === category
-                      ? "bg-text-light text-text-dark border-text-light"
-                      : "bg-bg-secondary text-text-base border-text-base/10 hover:border-text-base/30"
-                  }`}
-                >
-                  {category}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div className="mb-8">
-            <label className="text-text-base font-medium text-sm block mb-4">
-              Detail Laporan:
-            </label>
-            <textarea
-              value={detail}
-              onChange={(e) => setDetail(e.target.value)}
-              placeholder="Ceritakan dengan detail..."
-              className="w-full h-[140px] bg-bg-secondary border border-text-base/10 rounded-2xl p-4 text-text-base text-sm font-medium placeholder:text-text-base/30 resize-none outline-none focus:border-text-light/50 transition-colors"
-            />
-          </div>
-
-          <div className="mb-10">
-            <label className="text-text-base font-medium text-sm block mb-4">
-              Lokasi kejadian (opsional)
-            </label>
-            <div className="inline-block">
-              <input
-                type="text"
-                value={location}
-                onChange={(e) => setLocation(e.target.value)}
-                placeholder="Tambahkan lokasi"
-                className="h-[40px] bg-bg-secondary border border-text-base/10 rounded-full px-5 text-text-base text-sm font-medium placeholder:text-text-base/30 outline-none focus:border-text-light/50 transition-colors"
-              />
-            </div>
-          </div>
-
-          <div className="flex justify-center">
-            <button
-              onClick={handleSubmit}
-              disabled={isSubmitting}
-              className={`h-[44px] px-8 rounded-full transition-colors ${
-                isSubmitting
-                  ? "bg-text-base/20 text-text-base/50 cursor-not-allowed"
-                  : "bg-text-light text-text-dark hover:opacity-90"
-              }`}
-            >
-              <span className="font-semibold text-sm">
-                {isSubmitting ? "Mengirim..." : "Kirim Laporan"}
-              </span>
-            </button>
+      {/* Content */}
+      <div className="flex-1 overflow-y-auto px-5 py-6">
+        <div className="mb-8">
+          <label className="text-text-base font-medium text-sm block mb-4">
+            Kategori Penipuan:
+          </label>
+          <div className="flex flex-wrap gap-2">
+            {CATEGORIES.map((category) => (
+              <button
+                key={category}
+                onClick={() => setSelectedCategory(category)}
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-colors border ${
+                  selectedCategory === category
+                    ? "bg-text-light text-text-dark border-text-light"
+                    : "bg-bg-secondary text-text-base border-text-base/10 hover:border-text-base/30"
+                }`}
+              >
+                {category}
+              </button>
+            ))}
           </div>
         </div>
-      </motion.div>
-    </div>
+
+        <div className="mb-8">
+          <label className="text-text-base font-medium text-sm block mb-4">
+            Detail Laporan:
+          </label>
+          <textarea
+            value={detail}
+            onChange={(e) => setDetail(e.target.value)}
+            placeholder="Ceritakan dengan detail..."
+            className="w-full h-[140px] bg-bg-secondary border border-text-base/10 rounded-2xl p-4 text-text-base text-sm font-medium placeholder:text-text-base/30 resize-none outline-none focus:border-text-light/50 transition-colors"
+          />
+        </div>
+
+        <div className="mb-10">
+          <label className="text-text-base font-medium text-sm block mb-4">
+            Lokasi kejadian (opsional)
+          </label>
+          <div className="inline-block w-full">
+            <input
+              type="text"
+              value={location}
+              onChange={(e) => setLocation(e.target.value)}
+              placeholder="Tambahkan lokasi"
+              className="w-full h-[40px] bg-bg-secondary border border-text-base/10 rounded-full px-5 text-text-base text-sm font-medium placeholder:text-text-base/30 outline-none focus:border-text-light/50 transition-colors"
+            />
+          </div>
+        </div>
+
+        <div className="flex justify-center pb-8">
+          <button
+            onClick={handleSubmit}
+            disabled={isSubmitting}
+            className={`w-full max-w-[200px] h-[50px] rounded-full transition-colors ${
+              isSubmitting
+                ? "bg-text-base/20 text-text-base/50 cursor-not-allowed"
+                : "bg-text-light text-text-dark hover:opacity-90"
+            }`}
+          >
+            <span className="font-semibold text-sm">
+              {isSubmitting ? "Mengirim..." : "Kirim Laporan"}
+            </span>
+          </button>
+        </div>
+      </div>
+    </motion.div>
   );
 }
