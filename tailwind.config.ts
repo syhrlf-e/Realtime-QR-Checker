@@ -9,23 +9,17 @@ export default {
   theme: {
     extend: {
       colors: {
+        "bg-header": "#B0FF1F",
+        "bg-primary": "#0C0C0F",
+        "bg-secondary": "#15151A",
+        "text-dark": "#121C00",
+        "text-light": "#B0FF1F",
+        "text-base": "#F5F5F5",
+        "text-warning": "#FF0000",
         lime: "#B0FF1F",
-        text: "#334B06",
-        "bg-accordion": "#F5F5F5",
-        warning: "#FFBB00",
-        danger: {
-          DEFAULT: "#FF0000",
-          text: "#FF0000",
-          border: "#FF0000",
-          bg: "#FF0000",
-        },
-        safe: "#10b981",
       },
       fontFamily: {
         sans: ["var(--font-plus-jakarta-sans)", "system-ui", "sans-serif"],
-      },
-      spacing: {
-        "safe-top": "20px",
       },
     },
   },

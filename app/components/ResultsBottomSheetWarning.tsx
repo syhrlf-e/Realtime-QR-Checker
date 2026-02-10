@@ -51,22 +51,17 @@ export default function ResultsBottomSheetWarning({
       message: check,
     }));
 
-  // Ensure minimum 3 checks
   const fallbackChecks = [
+    { name: "Format sesuaia", status: "warning", message: "Format sesuaia" },
     {
-      name: "Format QRIS valid",
+      name: "Merchant ID tidak terverifikasi",
       status: "warning",
-      message: "Format QRIS valid",
+      message: "Merchant ID tidak terverifikasi",
     },
     {
-      name: "Format QRIS valid",
+      name: "Laporan penipuan ditemukan",
       status: "warning",
-      message: "Format QRIS valid",
-    },
-    {
-      name: "Format QRIS valid",
-      status: "warning",
-      message: "Format QRIS valid",
+      message: "Laporan penipuan ditemukan",
     },
   ];
 
@@ -81,7 +76,6 @@ export default function ResultsBottomSheetWarning({
     onClose();
   };
 
-  // Prevent body scroll when bottom sheet is open
   useEffect(() => {
     document.body.style.overflow = "hidden";
     return () => {
@@ -95,7 +89,7 @@ export default function ResultsBottomSheetWarning({
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
         onClick={onClose}
       />
 
@@ -104,12 +98,12 @@ export default function ResultsBottomSheetWarning({
         animate={{ y: 0 }}
         exit={{ y: "100%" }}
         transition={{ type: "spring", damping: 30, stiffness: 300 }}
-        className="relative w-full bg-white rounded-t-3xl overflow-hidden"
-        style={{ height: "764px" }}
+        className="relative w-full bg-bg-primary rounded-t-3xl overflow-hidden"
+        style={{ height: "90vh" }}
       >
-        <div className="px-5 pt-9 h-full overflow-y-auto">
-          <div className="flex justify-center mb-8">
-            <div className="w-12 h-1 bg-gray-300 rounded-full" />
+        <div className="px-5 pt-4 h-full overflow-y-auto pb-10">
+          <div className="flex justify-center mb-6">
+            <div className="w-12 h-1 bg-text-base/20 rounded-full" />
           </div>
 
           <div className="flex justify-center mb-3">
@@ -123,128 +117,123 @@ export default function ResultsBottomSheetWarning({
             </div>
           </div>
 
-          <h2 className="text-text font-medium text-xl text-center mb-9">
+          <h2 className="text-text-base font-medium text-xl text-center mb-8">
             QR Code Mencurigakan
           </h2>
 
-          <div className="flex-1 overflow-y-auto">
-            <div className="w-full bg-[#F8F8F8] rounded-2xl shadow-md p-6 mb-8 border border-gray-300">
-              <h3 className="text-text font-medium text-base text-center">
+          {/* Type pill */}
+          <div className="flex justify-center mb-6">
+            <div className="px-6 py-2 border border-text-light rounded-full">
+              <span className="text-text-base font-medium text-sm">
                 {data.type}
-              </h3>
-
-              <div className="h-8" />
-
-              {isQRIS && hasDetailedInfo && (
-                <>
-                  {data.merchant && (
-                    <>
-                      <p className="text-text/50 font-medium text-xs">
-                        Merchant
-                      </p>
-                      <div className="h-2" />
-                      <p className="text-text font-medium text-base">
-                        {data.merchant}
-                      </p>
-                      <div className="h-[22px]" />
-                    </>
-                  )}
-
-                  {data.nmid && (
-                    <>
-                      <p className="text-text/50 font-medium text-xs">NMID</p>
-                      <div className="h-2" />
-                      <p className="text-text font-medium text-base">
-                        {data.nmid}
-                      </p>
-                      <div className="h-[22px]" />
-                    </>
-                  )}
-
-                  {data.city && (
-                    <>
-                      <p className="text-text/50 font-medium text-xs">Kota</p>
-                      <div className="h-2" />
-                      <p className="text-text font-medium text-base">
-                        {data.city}
-                      </p>
-                      <div className="h-[22px]" />
-                    </>
-                  )}
-
-                  {data.amount && (
-                    <>
-                      <p className="text-text/50 font-medium text-xs">Amount</p>
-                      <div className="h-2" />
-                      <p className="text-text font-medium text-base">
-                        {data.amount}
-                      </p>
-                    </>
-                  )}
-                </>
-              )}
-
-              {!isQRIS && data.rawData && (
-                <>
-                  <p className="text-text/50 font-medium text-xs text-center">
-                    Isi QR Code
-                  </p>
-                  <div className="h-2" />
-                  <p className="text-text font-medium text-sm break-all text-center">
-                    {data.rawData}
-                  </p>
-                </>
-              )}
-            </div>
-
-            <h3 className="text-text font-medium text-base mb-4">
-              Kenapa terlihat mencurigakan?
-            </h3>
-
-            <div className="space-y-3 mb-4">
-              {securityChecks.map((check: any, index: number) => (
-                <div key={index} className="flex items-center gap-3">
-                  <X
-                    className="w-5 h-5 text-[#FF0000] flex-shrink-0"
-                    strokeWidth={2.5}
-                  />
-                  <p className="text-text font-medium text-sm">{check.name}</p>
-                </div>
-              ))}
+              </span>
             </div>
           </div>
 
-          <div className="h-6" />
+          {/* Info card */}
+          {isQRIS && hasDetailedInfo && (
+            <div className="w-full bg-bg-secondary rounded-2xl p-5 mb-8 border border-text-base/10">
+              {data.merchant && (
+                <div className="flex justify-between items-start mb-4">
+                  <span className="text-text-light text-xs font-medium">
+                    Merchant
+                  </span>
+                  <span className="text-text-base text-sm font-medium text-right">
+                    {data.merchant}
+                  </span>
+                </div>
+              )}
 
-          <div className="w-full h-[41px] bg-[#FF0000]/10 border border-[#FF0000] rounded-[20px] flex items-center justify-center px-4">
-            <p className="text-[#FF0000] font-normal text-sm text-center">
-              Jangan lanjutkan transaksi
+              {data.nmid && (
+                <div className="flex justify-between items-start mb-4">
+                  <span className="text-text-light text-xs font-medium">
+                    NMID
+                  </span>
+                  <span className="text-text-base text-sm font-medium text-right">
+                    {data.nmid}
+                  </span>
+                </div>
+              )}
+
+              {data.city && (
+                <div className="flex justify-between items-start mb-4">
+                  <span className="text-text-light text-xs font-medium">
+                    Kota
+                  </span>
+                  <span className="text-text-base text-sm font-medium text-right">
+                    {data.city}
+                  </span>
+                </div>
+              )}
+
+              {data.amount && (
+                <div className="flex justify-between items-start">
+                  <span className="text-text-light text-xs font-medium">
+                    Amount
+                  </span>
+                  <span className="text-text-base text-sm font-medium text-right">
+                    {data.amount}
+                  </span>
+                </div>
+              )}
+            </div>
+          )}
+
+          {!isQRIS && data.rawData && (
+            <div className="w-full bg-bg-secondary rounded-2xl p-5 mb-8 border border-text-base/10">
+              <p className="text-text-light text-xs font-medium text-center mb-2">
+                QR Content:
+              </p>
+              <p className="text-text-base text-sm font-medium break-all text-center">
+                {data.rawData}
+              </p>
+            </div>
+          )}
+
+          {/* Security checks */}
+          <div className="space-y-4 mb-8">
+            {securityChecks.map((check: any, index: number) => (
+              <div key={index} className="flex items-center gap-3">
+                <X
+                  className="w-5 h-5 text-text-warning flex-shrink-0"
+                  strokeWidth={2.5}
+                />
+                <p className="text-text-base font-medium text-sm">
+                  {check.name}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          <div className="h-2" />
+
+          {/* Warning banner */}
+          <div className="w-full h-[41px] bg-text-warning/10 border border-text-warning rounded-full flex items-center justify-center px-4 mb-8">
+            <p className="text-text-warning font-normal text-xs text-center">
+              Jangan lanjutkan transaksi apapun dengan QR ini
             </p>
           </div>
 
-          <div className="h-6" />
-
-          <div className="flex gap-[22px] justify-center">
+          {/* Action buttons */}
+          <div className="flex gap-4 justify-center">
             <button
               onClick={onScanAgain}
-              className="w-[123px] h-[44px] bg-[#B0FF1F] rounded-[50px] hover:bg-[#B0FF1F]/90 transition-colors flex items-center justify-center"
+              className="h-[44px] px-6 bg-text-light rounded-full hover:opacity-90 transition-opacity flex items-center justify-center"
             >
-              <span className="text-text font-semibold text-sm">
+              <span className="text-text-dark font-semibold text-sm">
                 Scan QR Lain
               </span>
             </button>
 
             <button
               onClick={() => setShowReportModal(true)}
-              className="w-[204px] h-[44px] bg-white border border-[#FF0000] rounded-[50px] hover:bg-red-50 transition-colors flex items-center justify-center"
+              className="h-[44px] px-6 border border-text-warning rounded-full hover:bg-text-warning/10 transition-colors flex items-center justify-center"
             >
-              <span className="text-[#FF0000] font-medium text-sm">
+              <span className="text-text-warning font-medium text-sm">
                 Laporkan penipuan
               </span>
             </button>
           </div>
-
-          <div className="h-10" />
         </div>
       </motion.div>
 

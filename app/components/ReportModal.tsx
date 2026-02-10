@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import toast from "react-hot-toast";
 
 interface ReportModalProps {
@@ -33,6 +34,7 @@ export default function ReportModal({
   const [detail, setDetail] = useState("");
   const [location, setLocation] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
 
   const handleSubmit = async () => {
     if (!selectedCategory || !detail.trim()) {
@@ -65,13 +67,16 @@ export default function ReportModal({
         throw new Error(result.error || "Failed to submit report");
       }
 
-      toast.success("Laporan berhasil dikirim!");
-      onSubmit({
-        category: selectedCategory,
-        detail: detail.trim(),
-        location: location.trim() || undefined,
-      });
-      onClose();
+      setShowSuccess(true);
+
+      setTimeout(() => {
+        onSubmit({
+          category: selectedCategory,
+          detail: detail.trim(),
+          location: location.trim() || undefined,
+        });
+        onClose();
+      }, 2500);
     } catch (error) {
       console.error("Submit error:", error);
       toast.error("Gagal mengirim laporan. Silakan coba lagi.");
@@ -80,7 +85,6 @@ export default function ReportModal({
     }
   };
 
-  // Prevent body scroll when modal is open
   useEffect(() => {
     document.body.style.overflow = "hidden";
     return () => {
@@ -88,13 +92,42 @@ export default function ReportModal({
     };
   }, []);
 
+  if (showSuccess) {
+    return (
+      <div className="fixed inset-0 z-[60] flex items-center justify-center bg-bg-primary">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ type: "spring", damping: 20 }}
+          className="flex flex-col items-center text-center px-8"
+        >
+          <div className="relative w-[80px] h-[80px] mb-6">
+            <Image
+              src="/cheekmark.png"
+              alt="Success"
+              fill
+              className="object-contain"
+            />
+          </div>
+          <h2 className="text-text-light font-semibold text-2xl mb-4">
+            Laporan Terkirim
+          </h2>
+          <p className="text-text-base/60 font-medium text-sm leading-relaxed max-w-[280px]">
+            Terimakasih sudah melaporkan kepada kami, laporan yang anda kirim
+            sangat berarti untuk pengguna lainnya.
+          </p>
+        </motion.div>
+      </div>
+    );
+  }
+
   return (
-    <div className="fixed inset-0 z-50 flex items-end justify-center">
+    <div className="fixed inset-0 z-[60] flex items-end justify-center">
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
         onClick={onClose}
       />
 
@@ -103,20 +136,20 @@ export default function ReportModal({
         animate={{ y: 0 }}
         exit={{ y: "100%" }}
         transition={{ type: "spring", damping: 30, stiffness: 300 }}
-        className="relative w-full bg-white rounded-t-3xl overflow-hidden"
-        style={{ height: "764px" }}
+        className="relative w-full bg-bg-primary rounded-t-3xl overflow-hidden"
+        style={{ height: "90vh" }}
       >
-        <div className="px-5 pt-9 h-full overflow-y-auto">
-          <div className="flex justify-center mb-8">
-            <div className="w-12 h-1 bg-gray-300 rounded-full" />
+        <div className="px-5 pt-4 h-full overflow-y-auto pb-10">
+          <div className="flex justify-center mb-6">
+            <div className="w-12 h-1 bg-text-base/20 rounded-full" />
           </div>
 
-          <h2 className="text-text font-medium text-xl text-center mb-9">
+          <h2 className="text-text-light font-medium text-xl text-center mb-10">
             Laporkan QR Penipuan
           </h2>
 
           <div className="mb-8">
-            <label className="text-text font-medium text-base block mb-4">
+            <label className="text-text-base font-medium text-sm block mb-4">
               Kategori Penipuan:
             </label>
             <div className="flex flex-wrap gap-2">
@@ -124,10 +157,10 @@ export default function ReportModal({
                 <button
                   key={category}
                   onClick={() => setSelectedCategory(category)}
-                  className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-colors border ${
                     selectedCategory === category
-                      ? "bg-lime text-text"
-                      : "bg-[#F5F5F5] text-text hover:bg-gray-200"
+                      ? "bg-text-light text-text-dark border-text-light"
+                      : "bg-bg-secondary text-text-base border-text-base/10 hover:border-text-base/30"
                   }`}
                 >
                   {category}
@@ -137,38 +170,40 @@ export default function ReportModal({
           </div>
 
           <div className="mb-8">
-            <label className="text-text font-medium text-base block mb-4">
+            <label className="text-text-base font-medium text-sm block mb-4">
               Detail Laporan:
             </label>
             <textarea
               value={detail}
               onChange={(e) => setDetail(e.target.value)}
               placeholder="Ceritakan dengan detail..."
-              className="w-full h-[160px] bg-[#F5F5F5] rounded-2xl p-4 text-text text-sm font-medium placeholder:text-text/50 resize-none outline-none focus:ring-2 focus:ring-lime"
+              className="w-full h-[140px] bg-bg-secondary border border-text-base/10 rounded-2xl p-4 text-text-base text-sm font-medium placeholder:text-text-base/30 resize-none outline-none focus:border-text-light/50 transition-colors"
             />
           </div>
 
           <div className="mb-10">
-            <label className="text-text font-medium text-base block mb-4">
+            <label className="text-text-base font-medium text-sm block mb-4">
               Lokasi kejadian (opsional)
             </label>
-            <input
-              type="text"
-              value={location}
-              onChange={(e) => setLocation(e.target.value)}
-              placeholder="Tambahkan lokasi"
-              className="w-full h-[50px] bg-[#F5F5F5] rounded-full px-6 text-text text-sm font-medium placeholder:text-text/50 outline-none focus:ring-2 focus:ring-lime"
-            />
+            <div className="inline-block">
+              <input
+                type="text"
+                value={location}
+                onChange={(e) => setLocation(e.target.value)}
+                placeholder="Tambahkan lokasi"
+                className="h-[40px] bg-bg-secondary border border-text-base/10 rounded-full px-5 text-text-base text-sm font-medium placeholder:text-text-base/30 outline-none focus:border-text-light/50 transition-colors"
+              />
+            </div>
           </div>
 
-          <div className="flex justify-center pb-10">
+          <div className="flex justify-center">
             <button
               onClick={handleSubmit}
               disabled={isSubmitting}
-              className={`w-[160px] h-[44px] rounded-full transition-colors ${
+              className={`h-[44px] px-8 rounded-full transition-colors ${
                 isSubmitting
-                  ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                  : "bg-lime text-text hover:bg-lime/90"
+                  ? "bg-text-base/20 text-text-base/50 cursor-not-allowed"
+                  : "bg-text-light text-text-dark hover:opacity-90"
               }`}
             >
               <span className="font-semibold text-sm">

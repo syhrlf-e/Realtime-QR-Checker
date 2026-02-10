@@ -1,117 +1,154 @@
 "use client";
 
-import { Camera, Upload, ArrowUpRight, ChevronDown } from "lucide-react";
-import { useState } from "react";
+import { Camera, ImageIcon, ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 
 export default function HomePage() {
-  const [openFaq, setOpenFaq] = useState<number | null>(null);
-
-  const toggleFaq = (index: number) => {
-    setOpenFaq(openFaq === index ? null : index);
-  };
-
-  const faqItems = [
-    {
-      question: "Kenapa harus pakai QR Safe Checker?",
-      answer:
-        "QR Safe Checker membantu Anda mendeteksi QR code berbahaya sebelum melakukan pembayaran atau mengakses link, melindungi dari penipuan phishing dan QRIS palsu.",
-    },
-    {
-      question: "Bagaimana cara kerjanya?",
-      answer:
-        "Aplikasi akan menganalisis QR code yang Anda scan, memeriksa keamanan URL, validasi QRIS, dan mencocokkan dengan database laporan penipuan dari pengguna lain.",
-    },
-    {
-      question: "Apakah gratis?",
-      answer:
-        "Ya, QR Safe Checker 100% gratis untuk semua pengguna. Tidak ada biaya tersembunyi atau langganan.",
-    },
-  ];
-
   return (
-    <main className="min-h-screen bg-white">
-      <div className="mx-auto max-w-md w-full px-5 py-5">
-        <div className="space-y-9 h-full flex flex-col">
-          <div className="w-full max-w-[350px] mx-auto h-[55px] bg-lime rounded-full flex items-center justify-center">
-            <h1 className="text-text font-medium text-xl">
-              Realtime QR Checker
-            </h1>
-          </div>
+    <main className="min-h-screen bg-bg-primary overflow-hidden">
+      <div className="mx-auto max-w-md w-full px-5">
+        <div className="h-5" />
 
-          <p className="text-text text-sm font-normal text-center">
-            "Jangan asal scan QR Code, cek dulu
+        <div className="w-full max-w-[350px] mx-auto h-[55px] bg-bg-header rounded-full flex items-center justify-center">
+          <h1
+            className="font-semibold text-[20px] leading-none"
+            style={{ color: "#15151A" }}
+          >
+            Realtime QR Checker
+          </h1>
+        </div>
+
+        <div className="h-[35px]" />
+
+        <p className="text-center font-medium text-[16px] leading-relaxed">
+          <span style={{ color: "#B0FF1F" }}>
+            &ldquo;Jangan asal scan QR Code, cek dulu
             <br />
-            <span className="bg-lime px-1">keamanannya</span> disini"
-          </p>
+          </span>
+          <span
+            className="px-1"
+            style={{
+              backgroundColor: "rgba(255, 63, 63, 0.84)",
+              color: "#B0FF1F",
+            }}
+          >
+            keamanannya
+          </span>
+          <span style={{ color: "#B0FF1F" }}> disini&rdquo;</span>
+        </p>
 
-          <div className="flex gap-4 mx-auto">
-            <Link
-              href="/scan/camera"
-              className="w-[164px] h-[132px] border-2 border-lime rounded-[47px] flex flex-col items-center justify-center gap-2 hover:bg-lime/5 transition-colors"
-            >
-              <Camera className="w-8 h-8 text-text" />
-              <span className="text-text font-semibold text-sm">
-                Scan dari kamera
-              </span>
-            </Link>
+        <div className="h-8" />
 
-            <Link
-              href="/scan/upload"
-              className="w-[164px] h-[132px] border-2 border-lime rounded-[47px] flex flex-col items-center justify-center gap-2 hover:bg-lime/5 transition-colors"
+        <Link
+          href="/scan/camera"
+          className="block w-full h-[281px] rounded-[32px] flex flex-col items-center justify-center gap-4 transition-all duration-300"
+          style={{
+            backgroundColor: "#15151A",
+            border: "1px solid #B0FF1F",
+          }}
+        >
+          <Camera className="w-10 h-10 text-text-base/40" />
+          <span className="text-text-base/40 font-medium text-sm">
+            Scan dari kamera
+          </span>
+        </Link>
+
+        <div className="h-6" />
+
+        <div className="flex gap-3 w-full justify-center">
+          <Link
+            href="/scan/upload"
+            className="flex items-center justify-center gap-2 rounded-[50px] transition-all duration-300"
+            style={{
+              width: "171px",
+              height: "57px",
+              backgroundColor: "rgba(245, 245, 245, 0.1)",
+              border: "1px solid #797979",
+              backdropFilter: "blur(20px)",
+              WebkitBackdropFilter: "blur(20px)",
+            }}
+          >
+            <ImageIcon
+              style={{
+                width: "15px",
+                height: "15px",
+                color: "#B0FF1F",
+                filter: "drop-shadow(0 0 8px rgba(176, 255, 31, 0.8))",
+              }}
+            />
+            <span
+              className="font-semibold text-[12px]"
+              style={{ color: "#B0FF1F" }}
             >
-              <Upload className="w-8 h-8 text-text" />
-              <span className="text-text font-semibold text-sm">
-                Upload foto QR
-              </span>
-            </Link>
-          </div>
+              Upload dari galeri
+            </span>
+          </Link>
 
           <Link
             href="/reports"
-            className="w-full max-w-[350px] mx-auto h-[57px] border-2 border-lime rounded-full flex items-center justify-between pl-6 pr-[14px] hover:bg-lime/5 transition-colors"
+            className="flex items-center justify-center gap-2 rounded-[50px] transition-all duration-300"
+            style={{
+              width: "171px",
+              height: "57px",
+              backgroundColor: "rgba(245, 245, 245, 0.1)",
+              border: "1px solid #797979",
+              backdropFilter: "blur(20px)",
+              WebkitBackdropFilter: "blur(20px)",
+            }}
           >
-            <span className="text-text font-medium text-sm">
-              Lihat Laporan Penipuan
+            <span
+              className="font-semibold text-[12px]"
+              style={{ color: "#B0FF1F" }}
+            >
+              Cari hasil laporan
             </span>
-            <div className="w-[29px] h-[29px] bg-lime rounded-full flex items-center justify-center">
-              <ArrowUpRight className="w-[18px] h-[18px] text-text" />
+            <div
+              className="rounded-full flex items-center justify-center"
+              style={{
+                width: "29px",
+                height: "29px",
+                backgroundColor: "#B0FF1F",
+                boxShadow: "0 0 12px rgba(176, 255, 31, 0.8)",
+              }}
+            >
+              <ArrowUpRight
+                style={{ width: "14px", height: "14px", color: "#15151A" }}
+              />
             </div>
           </Link>
+        </div>
 
-          <div className="space-y-6">
-            <h2 className="text-text font-medium text-base">
-              Apa itu QR Safe Checker?
-            </h2>
+        <div className="h-9" />
 
-            <div className="space-y-2">
-              {faqItems.map((item, index) => (
-                <div key={index} className="w-full max-w-[350px] mx-auto">
-                  <button
-                    onClick={() => toggleFaq(index)}
-                    className="w-full h-[46px] bg-bg-accordion rounded-lg px-4 flex items-center justify-between hover:bg-gray-200 transition-colors"
-                  >
-                    <span className="text-text font-semibold text-xs text-left">
-                      {item.question}
-                    </span>
-                    <ChevronDown
-                      className={`w-4 h-4 text-text transition-transform ${
-                        openFaq === index ? "rotate-180" : ""
-                      }`}
-                    />
-                  </button>
+        <div
+          className="mx-auto flex flex-col items-center"
+          style={{ width: "390px" }}
+        >
+          <div
+            style={{
+              width: "62px",
+              height: "1px",
+              backgroundColor: "rgba(245, 245, 245, 0.2)",
+            }}
+          />
 
-                  {openFaq === index && (
-                    <div className="mt-2 px-4 py-3 bg-white border border-bg-accordion rounded-lg">
-                      <p className="text-text text-xs leading-relaxed">
-                        {item.answer}
-                      </p>
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
+          <div className="h-8" />
+
+          <h2
+            className="text-center font-semibold text-[16px] mb-4"
+            style={{ color: "rgba(245, 245, 245, 0.6)" }}
+          >
+            Hasil scan realtime dan akurat
+          </h2>
+
+          <p
+            className="text-center font-medium text-[12px] leading-relaxed px-4"
+            style={{ color: "rgba(245, 245, 245, 0.6)" }}
+          >
+            Disini kami berkomitmen membantu anda dalam memecahkan masalah
+            ketika anda bingung isi qr ini apa dan mengurangi resiko menajadi
+            korban penipuan
+          </p>
         </div>
       </div>
     </main>

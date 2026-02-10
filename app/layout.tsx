@@ -22,28 +22,31 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="id">
-      <body className={`${plusJakartaSans.variable} font-sans antialiased`}>
+      <body
+        className={`${plusJakartaSans.variable} font-sans antialiased bg-bg-primary`}
+      >
         {children}
         <Toaster
           position="top-center"
           toastOptions={{
             duration: 3000,
             style: {
-              background: "#333",
-              color: "#fff",
+              background: "#15151A",
+              color: "#F5F5F5",
               borderRadius: "50px",
               padding: "12px 20px",
+              border: "1px solid #B0FF1F33",
             },
             success: {
               iconTheme: {
                 primary: "#B0FF1F",
-                secondary: "#333",
+                secondary: "#0C0C0F",
               },
             },
             error: {
               iconTheme: {
                 primary: "#FF0000",
-                secondary: "#fff",
+                secondary: "#F5F5F5",
               },
             },
           }}

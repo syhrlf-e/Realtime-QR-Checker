@@ -16,15 +16,9 @@ export default function CameraScannerPage() {
   const router = useRouter();
   const [showResults, setShowResults] = useState(false);
   const [analysisResult, setAnalysisResult] = useState<any>(null);
-  const [isCameraReady, setIsCameraReady] = useState(false);
 
   const handleQRDetected = (data: string) => {
     const decoded = decodeQR(data);
-
-    // Debug logging
-    console.log("🔍 QR Detected:", data);
-    console.log("📦 Decoded Type:", decoded.type);
-    console.log("📄 Parsed Data:", decoded.parsedData);
 
     let securityAnalysis;
     if (decoded.type === QRType.URL) {
@@ -57,8 +51,6 @@ export default function CameraScannerPage() {
       securityAnalysis,
     };
 
-    console.log("✅ Result to display:", result);
-
     setAnalysisResult(result);
     setShowResults(true);
   };
@@ -66,8 +58,7 @@ export default function CameraScannerPage() {
   const { videoRef, startScanning, stopScanning, resetLastScan } = useQRScanner(
     {
       onScan: handleQRDetected,
-      onError: (error) => {
-        console.error("QR Scanner error:", error);
+      onError: () => {
         toast.error(
           "Kamera tidak dapat diakses\nBerikan izin kamera di pengaturan browser Anda",
         );
@@ -76,79 +67,114 @@ export default function CameraScannerPage() {
   );
 
   useEffect(() => {
-    startScanning().then(() => {
-      setIsCameraReady(true);
-    });
-
+    startScanning();
     return () => {
       stopScanning();
     };
   }, [startScanning, stopScanning]);
 
   return (
-    <main className="h-screen bg-white overflow-hidden">
+    <main className="h-screen bg-bg-primary overflow-hidden">
       <div className="mx-auto max-w-md w-full px-5 py-5 h-full">
-        <div className="space-y-9 h-full flex flex-col">
-          <div className="w-full max-w-[350px] mx-auto h-[55px] bg-lime rounded-full flex items-center justify-center">
-            <h1 className="text-text font-medium text-xl">
+        <div className="h-full flex flex-col">
+          <div className="w-full max-w-[350px] mx-auto h-[55px] bg-bg-header rounded-full flex items-center justify-center">
+            <h1 className="text-text-dark font-medium text-xl">
               Realtime QR Checker
             </h1>
           </div>
 
-          <p className="text-text text-sm font-normal text-center">
-            Jangan asal scan QR Code, cek dulu
+          <div className="h-6" />
+
+          <p className="text-text-base text-sm font-normal text-center">
+            &ldquo;Jangan asal scan QR Code, cek dulu
             <br />
-            <span className="bg-lime px-1">keamanannya</span> disini
+            <span className="bg-bg-header text-text-dark px-1">
+              keamanannya
+            </span>{" "}
+            disini&rdquo;
           </p>
 
-          <div className="relative w-full max-w-[350px] mx-auto h-[339px] bg-gray-900 rounded-3xl overflow-hidden">
-            <video
-              ref={videoRef}
-              autoPlay
-              playsInline
-              muted
-              className="absolute inset-0 w-full h-full object-cover"
-            />
+          <div className="h-6" />
 
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="relative w-[179px] h-[179px]">
-                <div className="absolute inset-0 border-2 border-lime rounded-2xl" />
+          <div className="relative w-full max-w-[350px] mx-auto">
+            <div className="relative h-[339px] bg-bg-secondary rounded-3xl overflow-hidden">
+              <video
+                ref={videoRef}
+                autoPlay
+                playsInline
+                muted
+                className="absolute inset-0 w-full h-full object-cover"
+              />
 
-                <div className="absolute top-0 left-0 w-8 h-8 border-t-4 border-l-4 border-lime rounded-tl-2xl" />
-                <div className="absolute top-0 right-0 w-8 h-8 border-t-4 border-r-4 border-lime rounded-tr-2xl" />
-                <div className="absolute bottom-0 left-0 w-8 h-8 border-b-4 border-l-4 border-lime rounded-bl-2xl" />
-                <div className="absolute bottom-0 right-0 w-8 h-8 border-b-4 border-r-4 border-lime rounded-br-2xl" />
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="relative w-[180px] h-[180px]">
+                  <div className="absolute top-0 left-0 w-10 h-10 border-t-[3px] border-l-[3px] border-text-light rounded-tl-xl" />
+                  <div className="absolute top-0 right-0 w-10 h-10 border-t-[3px] border-r-[3px] border-text-light rounded-tr-xl" />
+                  <div className="absolute bottom-0 left-0 w-10 h-10 border-b-[3px] border-l-[3px] border-text-light rounded-bl-xl" />
+                  <div className="absolute bottom-0 right-0 w-10 h-10 border-b-[3px] border-r-[3px] border-text-light rounded-br-xl" />
+                </div>
               </div>
             </div>
 
-            <div className="absolute bottom-4 left-0 right-0 flex justify-center">
-              <div className="bg-lime/90 px-4 py-2 rounded-full">
-                <p className="text-text text-xs font-medium">
-                  Mencari QR Code...
+            <div className="absolute -bottom-5 left-0 right-0 flex justify-center">
+              <div
+                className="flex items-center justify-center rounded-[50px]"
+                style={{
+                  width: "204px",
+                  height: "40px",
+                  backgroundColor: "#B0FF1F",
+                }}
+              >
+                <p
+                  className="font-medium text-[14px]"
+                  style={{ color: "#121C00" }}
+                >
+                  Mencari QR Code
+                  <span className="inline-block animate-pulse">.</span>
+                  <span
+                    className="inline-block animate-pulse"
+                    style={{ animationDelay: "0.2s" }}
+                  >
+                    .
+                  </span>
+                  <span
+                    className="inline-block animate-pulse"
+                    style={{ animationDelay: "0.4s" }}
+                  >
+                    .
+                  </span>
                 </p>
               </div>
             </div>
           </div>
 
-          <div className="flex items-center w-full max-w-[350px] mx-auto">
-            <button
-              onClick={() => {
-                stopScanning();
-                router.push("/");
-              }}
-              className="w-[45px] h-[45px] bg-lime rounded-full flex items-center justify-center hover:bg-lime/90 transition-colors"
-            >
-              <ArrowLeft className="w-5 h-5 text-text" />
-            </button>
+          <div className="flex-1" />
 
+          <div className="flex w-full max-w-[350px] mx-auto pb-6">
             <button
               onClick={() => {
                 stopScanning();
                 router.push("/");
               }}
-              className="w-[123px] h-[44px] bg-lime rounded-full flex items-center justify-center hover:bg-lime/90 transition-colors"
+              className="flex items-center hover:opacity-90 transition-opacity"
             >
-              <span className="text-text font-semibold text-sm">Kembali</span>
+              <div
+                className="w-[45px] h-[45px] rounded-l-full flex items-center justify-center"
+                style={{ backgroundColor: "#15151A" }}
+              >
+                <ArrowLeft className="w-5 h-5" style={{ color: "#B0FF1F" }} />
+              </div>
+              <div
+                className="h-[45px] px-4 rounded-r-full flex items-center justify-center"
+                style={{ backgroundColor: "#15151A" }}
+              >
+                <span
+                  className="font-medium text-sm"
+                  style={{ color: "#B0FF1F" }}
+                >
+                  Kembali
+                </span>
+              </div>
             </button>
           </div>
         </div>
@@ -190,4 +216,3 @@ export default function CameraScannerPage() {
     </main>
   );
 }
-
